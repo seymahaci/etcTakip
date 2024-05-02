@@ -103,14 +103,14 @@ public class Ogrenciler extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Adı", "Soyadı", "Mail", "Telefon", "Aldığı Kurs", "Aktiflik"
+                "Adı", "Telefon", "Mail", "Aldığı Kurs", "Aktiflik"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -137,6 +137,11 @@ public class Ogrenciler extends javax.swing.JFrame {
         });
 
         jButton4.setText("Yeni Öğrenci");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Çık");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -293,6 +298,11 @@ public class Ogrenciler extends javax.swing.JFrame {
         mainPage.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        YeniOgrenci yeniOgrenci = new YeniOgrenci();
+        yeniOgrenci.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

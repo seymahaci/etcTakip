@@ -391,7 +391,7 @@ public class YeniEgitim extends javax.swing.JFrame {
             preparedStatement.setString(5, bitisdate);
             preparedStatement.setString(6, sAy);
             preparedStatement.setString(7, sSaat);
-            preparedStatement.setString(8, "inaktif");
+            preparedStatement.setString(8, "aktif");
             preparedStatement.executeUpdate();
 
             // Get the auto-generated id for the inserted row in egitim_etc

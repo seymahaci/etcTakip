@@ -294,11 +294,10 @@
         <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="0">
+              <Table columnCount="5" rowCount="0">
                 <Column editable="false" title="Ad&#x131;" type="java.lang.String"/>
-                <Column editable="false" title="Soyad&#x131;" type="java.lang.String"/>
-                <Column editable="false" title="Mail" type="java.lang.String"/>
                 <Column editable="false" title="Telefon" type="java.lang.String"/>
+                <Column editable="false" title="Mail" type="java.lang.String"/>
                 <Column editable="false" title="Ald&#x131;&#x11f;&#x131; Kurs" type="java.lang.String"/>
                 <Column editable="false" title="Aktiflik" type="java.lang.Object"/>
               </Table>
@@ -354,6 +353,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Yeni &#xd6;&#x11f;renci"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>
