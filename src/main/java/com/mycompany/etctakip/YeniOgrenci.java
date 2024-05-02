@@ -276,8 +276,60 @@ public class YeniOgrenci extends javax.swing.JFrame {
             odemeEgitimStatement.setInt(2, ogrenciID);
             odemeEgitimStatement.executeUpdate();
             
+            if (jRadioButton1.isSelected()) {
+                billingStatement = connection.prepareStatement("INSERT INTO billing (date, type_in_out, amount, tick) VALUES (CURDATE(), 'gelir_eg', ?, 'ödenmedi')", Statement.RETURN_GENERATED_KEYS);
+                billingStatement.setDouble(1, getPrice(selectedId));
+                billingStatement.executeUpdate();
+
+                // Get the auto-generated id for the inserted row in billing table
+                ResultSet generatedBillingKeys = billingStatement.getGeneratedKeys();
+                int billingId = -1;
+                if (generatedBillingKeys.next()) {
+                    billingId = generatedBillingKeys.getInt(1);
+                }
+                generatedBillingKeys.close();
+
+                // Insert into odeme_egitim_id table
+                String odemeEgitimInsertQuery = "INSERT INTO odeme_egitim_id (odeme_id, taraf_id, egitim_id) VALUES (?, ?, ?)";
+                odemeEgitimStatement = connection.prepareStatement(odemeEgitimInsertQuery);
+                odemeEgitimStatement.setInt(1, billingId);
+                odemeEgitimStatement.setInt(2, ogrenciID);
+                odemeEgitimStatement.setInt(3, selectedId);
+                odemeEgitimStatement.executeUpdate();
+                
+                
+            }else  if (jRadioButton2.isSelected()) {
+                int taksitint = Integer.parseInt(taksit);
+                double amountPerInstallment = getPrice(selectedId) / taksitint;
+                LocalDate currentDate = LocalDate.now();
+
+                for (int i = 0; i < taksitint; i++) {
+                    billingStatement = connection.prepareStatement("INSERT INTO billing (date, type_in_out, amount, tick) VALUES (?, 'gelir_eg', ?, 'ödenmedi')", Statement.RETURN_GENERATED_KEYS);
+                    billingStatement.setDate(1, java.sql.Date.valueOf(currentDate.plusMonths(i)));
+                    billingStatement.setDouble(2, amountPerInstallment);
+                    billingStatement.executeUpdate();
+
+                    // Get the auto-generated id for the inserted row in billing table
+                    ResultSet generatedBillingKeys = billingStatement.getGeneratedKeys();
+                    int billingId = -1;
+                    if (generatedBillingKeys.next()) {
+                        billingId = generatedBillingKeys.getInt(1);
+                    }
+                    generatedBillingKeys.close();
+
+                    // Insert into odeme_egitim_id table
+                    String odemeEgitimInsertQuery = "INSERT INTO odeme_egitim_id (odeme_id, taraf_id, egitim_id) VALUES (?, ?, ?)";
+                    odemeEgitimStatement = connection.prepareStatement(odemeEgitimInsertQuery);
+                    odemeEgitimStatement.setInt(1, billingId);
+                    odemeEgitimStatement.setInt(2, ogrenciID);
+                    odemeEgitimStatement.setInt(3, selectedId);
+                    odemeEgitimStatement.executeUpdate();
+                }
+            }
+            
             
             connection.commit();
+            this.dispose();
 
             System.out.println("Values inserted successfully!");
         } catch (SQLException | NumberFormatException e) {

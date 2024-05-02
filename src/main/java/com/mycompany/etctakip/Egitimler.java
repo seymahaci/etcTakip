@@ -131,7 +131,7 @@ public class Egitimler extends javax.swing.JFrame {
 
         jButton2.setText("Sırala");
 
-        jTable1.setFont(new java.awt.Font("Dialog", 0, 17)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

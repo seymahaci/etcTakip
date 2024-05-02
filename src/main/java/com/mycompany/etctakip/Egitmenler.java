@@ -102,6 +102,7 @@ public class Egitmenler extends javax.swing.JFrame {
 
         jButton2.setText("Sırala");
 
+        jTable1.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -125,6 +126,7 @@ public class Egitmenler extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
