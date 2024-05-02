@@ -4,6 +4,13 @@
  */
 package com.mycompany.etctakip;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author frankie
@@ -15,6 +22,7 @@ public class Billing extends javax.swing.JFrame {
      */
     public Billing() {
         initComponents();
+        fetchDataFromDatabase();
     }
 
     /**
@@ -62,6 +70,7 @@ public class Billing extends javax.swing.JFrame {
         jComboBox7 = new javax.swing.JComboBox<>();
         jComboBox8 = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -111,20 +120,17 @@ public class Billing extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Adı", "Soyadı", "Ödeme Tipi", "Ödeme Tarihi", "Miktar", "Ödendi mi?"
+                "Ödeme ID", "Adı Soyadı", "Ödeme Tipi", "Ödeme Tarihi", "Miktar", "Ödendi mi?"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -187,6 +193,13 @@ public class Billing extends javax.swing.JFrame {
         jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "none", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
         jLabel11.setText("Ay-Yıl");
+
+        jButton7.setText("Güncelle");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -267,10 +280,14 @@ public class Billing extends javax.swing.JFrame {
                                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(jButton7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(41, 41, 41)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -353,7 +370,8 @@ public class Billing extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jButton3)
                                 .addComponent(jButton5)
-                                .addComponent(jButton4)))
+                                .addComponent(jButton4)
+                                .addComponent(jButton7)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
@@ -391,6 +409,12 @@ public class Billing extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Tüm satırları temizle
+        fetchDataFromDatabase();
+    }//GEN-LAST:event_jButton7ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -432,6 +456,52 @@ public class Billing extends javax.swing.JFrame {
             }
         });
     }
+    private void fetchDataFromDatabase() {
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        String query =  "SELECT billing.id, " +
+                        "CASE " +
+                        "    WHEN billing.type_in_out LIKE '%_eg' THEN " +
+                        "        (SELECT CASE " +
+                        "            WHEN egitmen_etc.id = odeme_egitim_id.taraf_id THEN egitmen_etc.adi " +
+                        "            WHEN ogrenci_etc.id = odeme_egitim_id.taraf_id THEN ogrenci_etc.adi " +
+                        "        END " +
+                        "        FROM odeme_egitim_id " +
+                        "        LEFT JOIN egitmen_etc ON odeme_egitim_id.taraf_id = egitmen_etc.id " +
+                        "        LEFT JOIN ogrenci_etc ON odeme_egitim_id.taraf_id = ogrenci_etc.id " +
+                        "        WHERE odeme_egitim_id.odeme_id = billing.id) " +
+                        "    WHEN billing.type_in_out LIKE '%_di' THEN " +
+                        "        (SELECT adi FROM odeme_diger WHERE id = billing.id) " +
+                        "    ELSE 'Bilinmeyen' " +
+                        "END AS adi, " +
+                        "billing.type_in_out, " +
+                        "billing.date, " +
+                        "billing.amount, " +
+                        "billing.tick " +
+                        "FROM billing";
+
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            while (resultSet.next()) {
+                Object[] rowData = {
+                    resultSet.getObject("id"),
+                    resultSet.getObject("adi"),
+                    resultSet.getObject("type_in_out"),
+                    resultSet.getObject("date"),
+                    resultSet.getObject("amount"),
+                    resultSet.getObject("tick")
+                };
+                model.addRow(rowData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -441,6 +511,7 @@ public class Billing extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;

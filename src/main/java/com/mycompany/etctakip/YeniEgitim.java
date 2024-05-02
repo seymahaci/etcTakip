@@ -441,7 +441,7 @@ public class YeniEgitim extends javax.swing.JFrame {
 
             for (int i = 0; i < Integer.parseInt(sAy); i++) {
                 billingStatement.setString(1, sdf.format(calendar.getTime())); // Date
-                billingStatement.setString(2, "gider"); // type_in_out
+                billingStatement.setString(2, "gider_eg"); // type_in_out
                 billingStatement.setDouble(3, amount); // amount
                 billingStatement.addBatch();
 
@@ -459,7 +459,7 @@ public class YeniEgitim extends javax.swing.JFrame {
             generatedBillingKeys.close();
 
             // Insert into odeme_egitmen_id table
-            String odemeEgitmenInsertQuery = "INSERT INTO odeme_egitmen_id (odeme_id, egitim_id, egitmen_id) VALUES (?, ?, ?)";
+            String odemeEgitmenInsertQuery = "INSERT INTO odeme_egitim_id (odeme_id, egitim_id, taraf_id) VALUES (?, ?, ?)";
             odemeEgitmenStatement = connection.prepareStatement(odemeEgitmenInsertQuery);
 
             // Insert the generated billing ids along with egitimID and egitmenID into odeme_egitmen_id table
