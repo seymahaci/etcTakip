@@ -63,8 +63,9 @@ public class Egitimler extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Inconsolata Expanded Black", 0, 18)); // NOI18N
         jLabel1.setText("      Eğitimler");
@@ -130,19 +131,20 @@ public class Egitimler extends javax.swing.JFrame {
 
         jButton2.setText("Sırala");
 
+        jTable1.setFont(new java.awt.Font("Dialog", 0, 17)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Kurs Tipi", "Eğitmen", "Başlama Tarihi", "Bitiş Tarihi", "Kurs Saati", "Öğrenci Sayısı", "Dönem", "Aktiflik"
+                "ID", "Kurs Tipi", "Dönem", "Başlama Tarihi", "Bitiş Tarihi", "Kurs Saati", "Öğrenci Sayısı", "Eğitmen", "Aktiflik"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -153,6 +155,7 @@ public class Egitimler extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -170,6 +173,13 @@ public class Egitimler extends javax.swing.JFrame {
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Güncelle");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
             }
         });
 
@@ -240,7 +250,9 @@ public class Egitimler extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1128, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(567, 567, 567)
+                                .addGap(32, 32, 32)
+                                .addComponent(jButton6)
+                                .addGap(463, 463, 463)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,7 +324,8 @@ public class Egitimler extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jButton3)
                                 .addComponent(jButton4)
-                                .addComponent(jButton5)))
+                                .addComponent(jButton5)
+                                .addComponent(jButton6)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
@@ -350,11 +363,17 @@ public class Egitimler extends javax.swing.JFrame {
         YeniEgitim yeniEgitim = new YeniEgitim();
         yeniEgitim.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Tüm satırları temizle
+        fetchDataFromDatabase();
+    }//GEN-LAST:event_jButton6ActionPerformed
     private void fetchDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
         String username = "root";
         String password = "etc5861";
-        String query = "SELECT egitim_etc.kind, egitmen_etc.adi, egitim_etc.baslama_tarihi, egitim_etc.bitis_tarihi, egitim_etc.kurs_saati, COUNT(egitim_ogrenci_id.course_id) AS ogrencisayisi, egitim_etc.donem, egitim_etc.aktif " +
+        String query = "SELECT egitim_etc.id, egitim_etc.kind, egitim_etc.donem, egitim_etc.baslama_tarihi, egitim_etc.bitis_tarihi, egitim_etc.kurs_saati, COUNT(egitim_ogrenci_id.course_id) AS ogrencisayisi, egitmen_etc.adi, egitim_etc.aktif " +
                        "FROM egitim_etc " +
                        "INNER JOIN egitim_egitmen_id ON egitim_etc.id = egitim_egitmen_id.egitim_id " +
                        "INNER JOIN egitmen_etc ON egitim_egitmen_id.egitmen_id = egitmen_etc.id " +
@@ -369,13 +388,14 @@ public class Egitimler extends javax.swing.JFrame {
 
             while (resultSet.next()) {
                 Object[] rowData = {
+                    resultSet.getObject("id"),
                     resultSet.getObject("kind"),
-                    resultSet.getObject("adi"),
+                    resultSet.getObject("donem"),
                     resultSet.getObject("baslama_tarihi"),
                     resultSet.getObject("bitis_tarihi"),
                     resultSet.getObject("kurs_saati"),
                     resultSet.getObject("ogrencisayisi"),
-                    resultSet.getObject("donem"),
+                    resultSet.getObject("adi"),
                     resultSet.getObject("aktif")
                 };
                 model.addRow(rowData);
@@ -427,6 +447,7 @@ public class Egitimler extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
