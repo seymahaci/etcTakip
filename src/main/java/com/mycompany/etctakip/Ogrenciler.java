@@ -48,14 +48,8 @@ public class Ogrenciler extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jSeparator3 = new javax.swing.JSeparator();
@@ -87,24 +81,6 @@ public class Ogrenciler extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Sırala");
-
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Az->Çok");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Çok->Az");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Filtrele");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,20 +88,7 @@ public class Ogrenciler extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç", "Adı", "Aldığı Kurs" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Sırala");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -234,28 +197,10 @@ public class Ogrenciler extends javax.swing.JFrame {
                                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addComponent(jButton1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton7))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(98, 98, 98)
-                                            .addComponent(jLabel9))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jRadioButton1)
-                                            .addGap(72, 72, 72)
-                                            .addComponent(jRadioButton2))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(14, 14, 14)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jButton2)
-                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(70, 70, 70)
-                                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(134, 134, 134)
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton7)
                                 .addGap(50, 50, 50)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -306,19 +251,7 @@ public class Ogrenciler extends javax.swing.JFrame {
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
-                            .addComponent(jButton7))
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel9)
-                        .addGap(4, 4, 4)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jRadioButton2))
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(jButton2))
+                            .addComponent(jButton7)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,14 +271,6 @@ public class Ogrenciler extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -417,38 +342,6 @@ public class Ogrenciler extends javax.swing.JFrame {
         fetchDataFromDatabase();
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String selectedColumn = jComboBox1.getSelectedItem().toString();
-        boolean ascendingOrder = jRadioButton1.isSelected();
-
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(jTable1.getModel());
-        jTable1.setRowSorter(sorter);
-
-        if (!selectedColumn.equals("seç")) {
-            int columnIndex = -1;
-            switch (selectedColumn) {
-                case "Adı": columnIndex = 0; break; // İlgili sütun numarasını değiştirin
-                case "Aldığı Kurs": columnIndex = 3; break;
-                // Diğer sütunlar için aynı şekilde devam edin
-            }
-
-            if (columnIndex != -1) {
-                sorter.setComparator(columnIndex, new Comparator<String>() {
-                    @Override
-                    public int compare(String o1, String o2) {
-                        return ascendingOrder ? o1.compareTo(o2) : o2.compareTo(o1);
-                    }
-                });
-                sorter.setSortable(columnIndex, true);
-                sorter.sort();
-            }
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -514,6 +407,7 @@ public class Ogrenciler extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+    
     private void fetchDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
         String username = "root";
@@ -544,17 +438,14 @@ public class Ogrenciler extends javax.swing.JFrame {
         }
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
@@ -562,14 +453,11 @@ public class Ogrenciler extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
 }
