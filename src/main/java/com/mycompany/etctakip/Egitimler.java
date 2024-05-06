@@ -9,7 +9,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -23,6 +32,8 @@ public class Egitimler extends javax.swing.JFrame {
     public Egitimler() {
         initComponents();
         fetchDataFromDatabase();
+        fetchComboBoxCourseData();
+        fetchComboBoxTutorData();
     }
 
     /**
@@ -37,18 +48,10 @@ public class Egitimler extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -58,6 +61,11 @@ public class Egitimler extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -66,12 +74,7 @@ public class Egitimler extends javax.swing.JFrame {
 
         jLabel2.setText("Filtrele");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/yyyy"))));
-        jFormattedTextField1.setActionCommand("<Not Set>");
-
         jLabel3.setText("Başlangıç Ayı");
-
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/yyyy"))));
 
         jLabel4.setText("Bitiş Ayı");
 
@@ -79,29 +82,12 @@ public class Egitimler extends javax.swing.JFrame {
 
         jLabel6.setText("Kurs Adı");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("Kurs Saati");
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("Kurs Süresi (ay)");
-
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Filtrele");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
@@ -110,14 +96,14 @@ public class Egitimler extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Kurs Tipi", "Dönem", "Başlama Tarihi", "Bitiş Tarihi", "Kurs Saati", "Öğrenci Sayısı", "Eğitmen", "Aktiflik"
+                "ID", "Kurs", "Başlama Tarihi", "Bitiş Tarihi", "Kurs Saati", "Öğrenci Sayısı", "Eğitmen", "Aktiflik"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -156,6 +142,41 @@ public class Egitimler extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç" }));
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Sıfırla");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -165,40 +186,30 @@ public class Egitimler extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(222, 222, 222)
-                                .addComponent(jButton1))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(66, 66, 66)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel5)
-                                                .addComponent(jLabel3))
-                                            .addGap(50, 50, 50)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jFormattedTextField1)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel6)
-                                            .addGap(78, 78, 78)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel7)
-                                                .addComponent(jLabel4))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGap(3, 3, 3)
-                                            .addComponent(jLabel8)
-                                            .addGap(146, 146, 146)))
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4))
+                                        .addGap(50, 50, 50))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(78, 78, 78)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(163, 163, 163)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton2)))))
                         .addGap(27, 27, 27)
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -237,29 +248,23 @@ public class Egitimler extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
+                        .addGap(79, 79, 79)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,18 +280,6 @@ public class Egitimler extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         MainPage mainPage = new MainPage();
@@ -304,11 +297,97 @@ public class Egitimler extends javax.swing.JFrame {
         model.setRowCount(0); // Tüm satırları temizle
         fetchDataFromDatabase();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        String kursFilter = jComboBox1.getSelectedItem().toString();
+        String egitmenFilter = jComboBox2.getSelectedItem().toString();
+        String baslamaAyYil = jComboBox3.getSelectedItem().toString();
+        String bitisAyYil = jComboBox4.getSelectedItem().toString();
+
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(jTable1.getModel());
+        jTable1.setRowSorter(sorter);
+
+        List<RowFilter<Object,Object>> filters = new ArrayList<>();
+
+        
+
+        // Kurs filter
+        if (!kursFilter.equals("seç")) {
+            filters.add(RowFilter.regexFilter(kursFilter, 1)); // 1 is the index of kurs column
+        }
+
+        // Eğitmen filter
+        if (!egitmenFilter.equals("seç")) {
+            filters.add(RowFilter.regexFilter(egitmenFilter, 6)); // 2 is the index of egitmen column
+        }
+
+        // Başlangıç tarihi filter
+        if (!baslamaAyYil.equals("seç")) {
+            String baslangicTarihi = baslamaAyYil + "/01"; // Ay ve yıla ilk günü ekleyelim
+            filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, java.sql.Date.valueOf(baslangicTarihi), 2)); // 3 is the index of baslama_tarihi column
+        }
+
+        // Bitiş tarihi filter
+        if (!bitisAyYil.equals("seç")) {
+            String bitisTarihi = bitisAyYil + "/01"; // Ay ve yıla ilk günü ekleyelim
+            filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, java.sql.Date.valueOf(bitisTarihi), 3)); // 4 is the index of bitis_tarihi column
+        }
+
+        RowFilter<Object,Object> combinedFilter = RowFilter.andFilter(filters);
+        sorter.setRowFilter(combinedFilter);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // Başlangıç ve bitiş tarihlerini ay ve yıl olarak ayarla
+        LocalDate startDate = LocalDate.of(2023, Month.JANUARY, 1);
+        LocalDate endDate = LocalDate.of(2030, Month.DECEMBER, 1);
+
+        // Tarih aralığı boyunca döngü yaparak tüm ayları ekleyin
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
+        while (!startDate.isAfter(endDate)) {
+            jComboBox3.addItem(startDate.format(formatter));
+            startDate = startDate.plusMonths(1);
+        }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        LocalDate startDate = LocalDate.of(2023, Month.JANUARY, 1);
+        LocalDate endDate = LocalDate.of(2030, Month.DECEMBER, 1);
+
+        // Tarih aralığı boyunca döngü yaparak tüm ayları ekleyin
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
+        while (!startDate.isAfter(endDate)) {
+            jComboBox4.addItem(startDate.format(formatter));
+            startDate = startDate.plusMonths(1);
+        }
+    }//GEN-LAST:event_jComboBox4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        // jComboBox2 ve jComboBox3'ü "Seç" olarak ayarla
+        jComboBox1.setSelectedItem("seç");
+        jComboBox2.setSelectedItem("seç");
+        jComboBox3.setSelectedItem("seç");
+        jComboBox4.setSelectedItem("seç");
+
+        // Veritabanından verileri alarak tabloyu güncelle
+        jTable1.setRowSorter(null);
+        fetchDataFromDatabase();
+    }//GEN-LAST:event_jButton2ActionPerformed
     private void fetchDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
         String username = "root";
         String password = "etc5861";
-        String query = "SELECT egitim_etc.id, egitim_etc.kind, egitim_etc.donem, egitim_etc.baslama_tarihi, egitim_etc.bitis_tarihi, egitim_etc.kurs_saati, COUNT(egitim_ogrenci_id.course_id) AS ogrencisayisi, egitmen_etc.adi, egitim_etc.aktif " +
+        String query = "SELECT egitim_etc.id, CONCAT(egitim_etc.kind, ' - ', egitim_etc.donem) AS kurs, egitim_etc.baslama_tarihi, egitim_etc.bitis_tarihi, egitim_etc.kurs_saati, COUNT(egitim_ogrenci_id.course_id) AS ogrencisayisi, egitmen_etc.adi, egitim_etc.aktif " +
                        "FROM egitim_etc " +
                        "INNER JOIN egitim_egitmen_id ON egitim_etc.id = egitim_egitmen_id.egitim_id " +
                        "INNER JOIN egitmen_etc ON egitim_egitmen_id.egitmen_id = egitmen_etc.id " +
@@ -316,28 +395,37 @@ public class Egitimler extends javax.swing.JFrame {
                        "GROUP BY egitim_etc.id";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query)) {
 
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+           DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-            while (resultSet.next()) {
-                Object[] rowData = {
-                    resultSet.getObject("id"),
-                    resultSet.getObject("kind"),
-                    resultSet.getObject("donem"),
-                    resultSet.getObject("baslama_tarihi"),
-                    resultSet.getObject("bitis_tarihi"),
-                    resultSet.getObject("kurs_saati"),
-                    resultSet.getObject("ogrencisayisi"),
-                    resultSet.getObject("adi"),
-                    resultSet.getObject("aktif")
-                };
-                model.addRow(rowData);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+           // Tarih formatını belirle
+           SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+
+           while (resultSet.next()) {
+               java.sql.Date baslamaTarihi = resultSet.getDate("baslama_tarihi");
+               java.sql.Date bitisTarihi = resultSet.getDate("bitis_tarihi");
+
+               // Belirli bir biçime dönüştür
+               String baslamaTarihiStr = dateFormat.format(baslamaTarihi);
+               String bitisTarihiStr = dateFormat.format(bitisTarihi);
+
+               Object[] rowData = {
+                   resultSet.getInt("id"),
+                   resultSet.getObject("kurs"),
+                   baslamaTarihiStr,
+                   bitisTarihiStr,
+                   resultSet.getObject("kurs_saati"),
+                   resultSet.getObject("ogrencisayisi"),
+                   resultSet.getObject("adi"),
+                   resultSet.getObject("aktif")
+               };
+               model.addRow(rowData);
+           }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
     }
     /**
      * @param args the command line arguments
@@ -373,32 +461,79 @@ public class Egitimler extends javax.swing.JFrame {
             }
         });
     }
+    private void fetchComboBoxCourseData() {
+    // Özel kursları ekle
+        jComboBox1.addItem("YÖKDİL");
+        jComboBox1.addItem("YDS");
+        jComboBox1.addItem("Genel İngilizce");
+        jComboBox1.addItem("Konuşma");
+        jComboBox1.addItem("IELTS");
+        jComboBox1.addItem("TOEFL");
+
+        // Veritabanından gelen verileri ekle
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        String query = "SELECT CONCAT(kind, ' - ', donem) AS course FROM egitim_etc";
+
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            // Veritabanından gelen verileri ComboBox'a ekle
+            while (resultSet.next()) {
+                String course = resultSet.getString("course");
+                jComboBox1.addItem(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void fetchComboBoxTutorData() {
+    // Özel kursları ekle
+       
+        // Veritabanından gelen verileri ekle
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        String query = "SELECT adi FROM egitmen_etc";
+
+        try (Connection connection = DriverManager.getConnection(url, username, password);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            // Veritabanından gelen verileri ComboBox'a ekle
+            while (resultSet.next()) {
+                String course = resultSet.getString("adi");
+                jComboBox2.addItem(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }
