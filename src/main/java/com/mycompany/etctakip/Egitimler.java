@@ -5,16 +5,20 @@
 package com.mycompany.etctakip;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ButtonModel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -63,9 +67,11 @@ public class Egitimler extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -74,9 +80,9 @@ public class Egitimler extends javax.swing.JFrame {
 
         jLabel2.setText("Filtrele");
 
-        jLabel3.setText("Başlangıç Ayı");
+        jLabel3.setText("Aralık başı");
 
-        jLabel4.setText("Bitiş Ayı");
+        jLabel4.setText("Aralık Sonu");
 
         jLabel5.setText("Eğitmen");
 
@@ -156,24 +162,42 @@ public class Egitimler extends javax.swing.JFrame {
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç" }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
-            }
-        });
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç" }));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
-            }
-        });
-
         jButton2.setText("Sıfırla");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        jFormattedTextField3.setText("dd/MM/YYYY");
+        jFormattedTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField3ActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        jFormattedTextField4.setText("dd/MM/YYYY");
+        jFormattedTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField4ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("Bitiş");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Başlangıç");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
             }
         });
 
@@ -188,20 +212,20 @@ public class Egitimler extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(66, 66, 66)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel4))
-                                        .addGap(50, 50, 50))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(78, 78, 78)))
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(67, 67, 67)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jComboBox1, 0, 138, Short.MAX_VALUE)
+                                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jFormattedTextField4)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                                        .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(163, 163, 163)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,7 +233,12 @@ public class Egitimler extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jButton1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton2)))))
+                                        .addComponent(jButton2))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jRadioButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRadioButton1)))
                         .addGap(27, 27, 27)
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -228,7 +257,7 @@ public class Egitimler extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(173, 173, 173)
                         .addComponent(jLabel2)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,22 +275,27 @@ public class Egitimler extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(43, 43, 43))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(79, 79, 79)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton2))
+                        .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton2)))
@@ -302,15 +336,29 @@ public class Egitimler extends javax.swing.JFrame {
         
         String kursFilter = jComboBox1.getSelectedItem().toString();
         String egitmenFilter = jComboBox2.getSelectedItem().toString();
-        String baslamaAyYil = jComboBox3.getSelectedItem().toString();
-        String bitisAyYil = jComboBox4.getSelectedItem().toString();
+
+        // Seçilen tarih aralığını alın
+        String startDate = jFormattedTextField3.getText();
+        String endDate = jFormattedTextField4.getText();
+
+        // Seçilen tarihlerin formatını dd/MM/yyyy'den yyyy/MM/dd'ye dönüştürün
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date parsedStartDate = null;
+        Date parsedEndDate = null;
+        try {
+            parsedStartDate = inputFormat.parse(startDate);
+            parsedEndDate = inputFormat.parse(endDate);
+            startDate = outputFormat.format(parsedStartDate);
+            endDate = outputFormat.format(parsedEndDate);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(jTable1.getModel());
         jTable1.setRowSorter(sorter);
 
         List<RowFilter<Object,Object>> filters = new ArrayList<>();
-
-        
 
         // Kurs filter
         if (!kursFilter.equals("seç")) {
@@ -319,19 +367,19 @@ public class Egitimler extends javax.swing.JFrame {
 
         // Eğitmen filter
         if (!egitmenFilter.equals("seç")) {
-            filters.add(RowFilter.regexFilter(egitmenFilter, 6)); // 2 is the index of egitmen column
+            filters.add(RowFilter.regexFilter(egitmenFilter, 6)); // 6 is the index of egitmen column
         }
 
-        // Başlangıç tarihi filter
-        if (!baslamaAyYil.equals("seç")) {
-            String baslangicTarihi = baslamaAyYil + "/01"; // Ay ve yıla ilk günü ekleyelim
-            filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, java.sql.Date.valueOf(baslangicTarihi), 2)); // 3 is the index of baslama_tarihi column
-        }
-
-        // Bitiş tarihi filter
-        if (!bitisAyYil.equals("seç")) {
-            String bitisTarihi = bitisAyYil + "/01"; // Ay ve yıla ilk günü ekleyelim
-            filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, java.sql.Date.valueOf(bitisTarihi), 3)); // 4 is the index of bitis_tarihi column
+        // Tarih aralığı filtresi
+        ButtonModel selectedButton = buttonGroup1.getSelection();
+        if (selectedButton != null) {
+            if (selectedButton.equals(jRadioButton1.getModel())) { // Başlangıç tarihi filtresi
+                filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, parsedStartDate, 2)); // 2 is the index of başlangıç tarihi column
+                filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, parsedEndDate, 2)); // 2 is the index of başlangıç tarihi column
+            } else if (selectedButton.equals(jRadioButton2.getModel())) { // Bitiş tarihi filtresi
+                filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, parsedStartDate, 3)); // 3 is the index of bitiş tarihi column
+                filters.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, parsedEndDate, 3)); // 3 is the index of bitiş tarihi column
+            }
         }
 
         RowFilter<Object,Object> combinedFilter = RowFilter.andFilter(filters);
@@ -346,43 +394,32 @@ public class Egitimler extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // Başlangıç ve bitiş tarihlerini ay ve yıl olarak ayarla
-        LocalDate startDate = LocalDate.of(2023, Month.JANUARY, 1);
-        LocalDate endDate = LocalDate.of(2030, Month.DECEMBER, 1);
-
-        // Tarih aralığı boyunca döngü yaparak tüm ayları ekleyin
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
-        while (!startDate.isAfter(endDate)) {
-            jComboBox3.addItem(startDate.format(formatter));
-            startDate = startDate.plusMonths(1);
-        }
-    }//GEN-LAST:event_jComboBox3ActionPerformed
-
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        LocalDate startDate = LocalDate.of(2023, Month.JANUARY, 1);
-        LocalDate endDate = LocalDate.of(2030, Month.DECEMBER, 1);
-
-        // Tarih aralığı boyunca döngü yaparak tüm ayları ekleyin
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
-        while (!startDate.isAfter(endDate)) {
-            jComboBox4.addItem(startDate.format(formatter));
-            startDate = startDate.plusMonths(1);
-        }
-    }//GEN-LAST:event_jComboBox4ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
         // jComboBox2 ve jComboBox3'ü "Seç" olarak ayarla
         jComboBox1.setSelectedItem("seç");
         jComboBox2.setSelectedItem("seç");
-        jComboBox3.setSelectedItem("seç");
-        jComboBox4.setSelectedItem("seç");
 
         // Veritabanından verileri alarak tabloyu güncelle
         jTable1.setRowSorter(null);
-        fetchDataFromDatabase();
+        //fetchDataFromDatabase();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jFormattedTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextField4ActionPerformed
+
+    private void jFormattedTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextField3ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
     private void fetchDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
         String username = "root";
@@ -512,6 +549,8 @@ public class Egitimler extends javax.swing.JFrame {
         }
     }
     
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -523,14 +562,16 @@ public class Egitimler extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JFormattedTextField jFormattedTextField3;
+    private javax.swing.JFormattedTextField jFormattedTextField4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
