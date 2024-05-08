@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 08, 2024 at 09:55 PM
+-- Generation Time: May 08, 2024 at 10:25 PM
 -- Server version: 11.3.2-MariaDB
 -- PHP Version: 8.3.3
 
@@ -54,6 +54,13 @@ CREATE TABLE `egitim_egitmen_id` (
   `egitmen_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `egitim_egitmen_id`
+--
+
+INSERT INTO `egitim_egitmen_id` (`id`, `egitim_id`, `egitmen_id`) VALUES
+(5, 10001, 30002);
+
 -- --------------------------------------------------------
 
 --
@@ -92,6 +99,13 @@ CREATE TABLE `egitim_ogrenci_id` (
   `course_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `egitim_ogrenci_id`
+--
+
+INSERT INTO `egitim_ogrenci_id` (`id`, `ogrenci_id`, `course_id`) VALUES
+(6, 50001, 10001);
+
 -- --------------------------------------------------------
 
 --
@@ -114,7 +128,7 @@ CREATE TABLE `egitmen_etc` (
 --
 
 INSERT INTO `egitmen_etc` (`id`, `adi`, `telefon`, `mail`, `iban`, `dersler`, `notes`, `musait`) VALUES
-(30000, 'Default', '00000000000', '-', '0', '-', '-', 'no');
+(30000, 'John Doe', '0000 000 00 00', 'john.doe@mail.com', 'TR00 0000 0000 0000 0000 00', 'John Doe Nasıl Olunur?', '-', 'no');
 
 -- --------------------------------------------------------
 
@@ -148,6 +162,14 @@ CREATE TABLE `odeme_egitim_id` (
   `taraf_id` int(11) NOT NULL,
   `egitim_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `odeme_egitim_id`
+--
+
+INSERT INTO `odeme_egitim_id` (`id`, `odeme_id`, `taraf_id`, `egitim_id`) VALUES
+(1, 70001, 30002, 10001),
+(2, 70002, 50001, 10001);
 
 -- --------------------------------------------------------
 
@@ -242,31 +264,31 @@ ALTER TABLE `ogrenci_etc`
 -- AUTO_INCREMENT for table `billing`
 --
 ALTER TABLE `billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70001;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70003;
 
 --
 -- AUTO_INCREMENT for table `egitim_egitmen_id`
 --
 ALTER TABLE `egitim_egitmen_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `egitim_etc`
 --
 ALTER TABLE `egitim_etc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10001;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10002;
 
 --
 -- AUTO_INCREMENT for table `egitim_ogrenci_id`
 --
 ALTER TABLE `egitim_ogrenci_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `egitmen_etc`
 --
 ALTER TABLE `egitmen_etc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30001;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30003;
 
 --
 -- AUTO_INCREMENT for table `odeme_diger`
@@ -278,13 +300,13 @@ ALTER TABLE `odeme_diger`
 -- AUTO_INCREMENT for table `odeme_egitim_id`
 --
 ALTER TABLE `odeme_egitim_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ogrenci_etc`
 --
 ALTER TABLE `ogrenci_etc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50001;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50002;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
