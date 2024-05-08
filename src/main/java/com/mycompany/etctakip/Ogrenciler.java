@@ -6,12 +6,14 @@ package com.mycompany.etctakip;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -60,6 +62,7 @@ public class Ogrenciler extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -95,14 +98,14 @@ public class Ogrenciler extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Adı", "Telefon", "Mail", "Aldığı Kurs", "Aktiflik"
+                "ID", "Adı", "Telefon", "Mail", "Aldığı Kurs", "Aktiflik"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, true, true, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -132,7 +135,7 @@ public class Ogrenciler extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Detay-Düzenle");
+        jButton3.setText("Öğrenciyi Sil");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -164,6 +167,13 @@ public class Ogrenciler extends javax.swing.JFrame {
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Değişiklikleri Kaydet");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
             }
         });
 
@@ -210,6 +220,8 @@ public class Ogrenciler extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
                                 .addComponent(jButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(49, 49, 49)
@@ -260,7 +272,8 @@ public class Ogrenciler extends javax.swing.JFrame {
                                 .addComponent(jButton3)
                                 .addComponent(jButton4)
                                 .addComponent(jButton5)
-                                .addComponent(jButton6)))
+                                .addComponent(jButton6)
+                                .addComponent(jButton8)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
@@ -273,7 +286,67 @@ public class Ogrenciler extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // Seçili satırın indeksini al
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        int selectedRowIndex = jTable1.getSelectedRow();
+        
+        if (selectedRowIndex == -1) {
+            JOptionPane.showMessageDialog(null, "Lütfen silmek istediğiniz satırı seçin.");
+            return;
+        }
+
+        // Seçili satırdaki eğitim ID'sini al
+        int selectedEgitimID = Integer.parseInt(jTable1.getValueAt(selectedRowIndex, 0).toString());
+        int choice = JOptionPane.showConfirmDialog(null, "Seçili satırı silmek istediğinizden emin misiniz?", "Onay", JOptionPane.YES_NO_OPTION);
+        
+        if (choice == JOptionPane.YES_OPTION) {
+            try {
+                // Veritabanı bağlantısını oluştur
+                Connection conn = DriverManager.getConnection(url, username, password);
+
+                // PreparedStatement oluştur ve ödemeleri bulmak için sorguyu hazırla
+                PreparedStatement findPaymentIdStmt = conn.prepareStatement("SELECT odeme_id FROM odeme_egitim_id WHERE taraf_id = ?");
+                findPaymentIdStmt.setInt(1, selectedEgitimID);
+
+                // Sorguyu çalıştır ve ödeme ID'lerini al
+                ResultSet paymentIdResult = findPaymentIdStmt.executeQuery();
+                while (paymentIdResult.next()) {
+                    int paymentID = paymentIdResult.getInt("odeme_id");
+
+                    // Billing tablosundan ödemeyi sil
+                    PreparedStatement deleteBillingStmt = conn.prepareStatement("DELETE FROM billing WHERE id = ?");
+                    deleteBillingStmt.setInt(1, paymentID);
+                    deleteBillingStmt.executeUpdate();
+
+                    PreparedStatement deleteOdemeEgitimStmt = conn.prepareStatement("DELETE FROM odeme_egitim_id WHERE odeme_id = ?");
+                    deleteOdemeEgitimStmt.setInt(1, paymentID);
+                    deleteOdemeEgitimStmt.executeUpdate();
+                }
+
+                // Diğer tablolardan ilgili satırları sil
+                PreparedStatement deleteEgitimStmt = conn.prepareStatement("DELETE FROM egitim_ogrenci_id WHERE ogrenci_id = ?");
+                deleteEgitimStmt.setInt(1, selectedEgitimID);
+                deleteEgitimStmt.executeUpdate();
+
+                PreparedStatement deleteEgitmenStmt = conn.prepareStatement("DELETE FROM ogrenci_etc WHERE id = ?");
+                deleteEgitmenStmt.setInt(1, selectedEgitimID);
+                deleteEgitmenStmt.executeUpdate();
+
+
+                // Bağlantıyı kapat
+                conn.close();
+
+                // jTable1'i güncelle
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0); // Tüm satırları temizle
+                fetchDataFromDatabase(); // jTable1 için verileri yeniden yükle
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -341,6 +414,43 @@ public class Ogrenciler extends javax.swing.JFrame {
         jTable1.setRowSorter(null);
         fetchDataFromDatabase();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        //id, adi, telefon, mail, kurs, aktiflik
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Lütfen güncellemek istediğiniz satırı seçin.");
+            return;
+        }
+
+        int id = Integer.parseInt(jTable1.getValueAt(selectedRow, 0).toString()); // ID değeri 0. sütunda
+        String adi = jTable1.getValueAt(selectedRow, 1).toString();
+        String mail = jTable1.getValueAt(selectedRow, 3).toString(); // Mail bilgisi 1. sütunda
+        String telefon = jTable1.getValueAt(selectedRow, 2).toString(); // Telefon bilgisi 2. sütunda
+        
+
+        // Güncelleme sorgusu oluşturma
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        String updateQuery = "UPDATE ogrenci_etc SET adi = ?, mail = ?, telefon = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+            
+            pstmt.setString(1, adi);
+            pstmt.setString(2, mail);
+            pstmt.setString(3, telefon);
+            pstmt.setInt(4, id);
+            pstmt.executeUpdate(); // Güncelleme sorgusunu çalıştır
+
+            JOptionPane.showMessageDialog(null, "Seçili satırın bilgileri güncellendi.");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -413,7 +523,7 @@ public class Ogrenciler extends javax.swing.JFrame {
         String username = "root";
         String password = "etc5861";
 
-        String query = "SELECT ogrenci_etc.adi, ogrenci_etc.telefon, ogrenci_etc.mail, CONCAT(egitim_etc.kind, ' - ', egitim_etc.donem) AS kurs, egitim_etc.aktif FROM ogrenci_etc " +
+        String query = "SELECT ogrenci_etc.id, ogrenci_etc.adi, ogrenci_etc.telefon, ogrenci_etc.mail, CONCAT(egitim_etc.kind, ' - ', egitim_etc.donem) AS kurs, egitim_etc.aktif FROM ogrenci_etc " +
                 "INNER JOIN egitim_ogrenci_id ON ogrenci_etc.id = egitim_ogrenci_id.ogrenci_id " +
                 "INNER JOIN egitim_etc ON egitim_ogrenci_id.course_id = egitim_etc.id";
 
@@ -425,13 +535,14 @@ public class Ogrenciler extends javax.swing.JFrame {
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
+                String id = resultSet.getString("id");
                 String adi = resultSet.getString("adi");
                 String telefon = resultSet.getString("telefon");
                 String mail = resultSet.getString("mail");
                 String kurs = resultSet.getString("kurs");
                 String aktiflik = resultSet.getString("aktif");
 
-                model.addRow(new Object[]{adi, telefon, mail, kurs, aktiflik});
+                model.addRow(new Object[]{id, adi, telefon, mail, kurs, aktiflik});
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -446,6 +557,7 @@ public class Ogrenciler extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;

@@ -7,6 +7,8 @@ package com.mycompany.etctakip;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -56,6 +58,7 @@ public class Egitmenler extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jComboBox4 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -84,14 +87,14 @@ public class Egitmenler extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Adı", "Mail", "Telefon", "IBAN", "Verdiği Kurslar", "Müsaitlik"
+                "ID", "Adı", "Mail", "Telefon", "IBAN", "Verdiği Kurslar", "Müsaitlik"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, true, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -121,7 +124,7 @@ public class Egitmenler extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText("Detay-Düzenle");
+        jButton3.setText("Eğitmeni Sil");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -160,6 +163,13 @@ public class Egitmenler extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Değişiklikleri Kaydet");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
             }
         });
 
@@ -210,6 +220,8 @@ public class Egitmenler extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(42, 42, 42)
                                 .addComponent(jButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(49, 49, 49)
@@ -260,7 +272,8 @@ public class Egitmenler extends javax.swing.JFrame {
                                 .addComponent(jButton3)
                                 .addComponent(jButton4)
                                 .addComponent(jButton5)
-                                .addComponent(jButton6)))
+                                .addComponent(jButton6)
+                                .addComponent(jButton7)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
@@ -269,7 +282,35 @@ public class Egitmenler extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // Seçili satırın indeksini al
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        int selectedRowIndex = jTable1.getSelectedRow();
+
+        // Seçili satırdaki eğitim ID'sini al
+        int selectedEgitmenID = Integer.parseInt(jTable1.getValueAt(selectedRowIndex, 0).toString());
+        
+        try {
+            // Veritabanı bağlantısını oluştur
+            Connection conn = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement deleteEgitmenStmt = conn.prepareStatement("DELETE FROM egitmen_etc WHERE id = ?");
+            deleteEgitmenStmt.setInt(1, selectedEgitmenID);
+            deleteEgitmenStmt.executeUpdate();
+
+
+            // Bağlantıyı kapat
+            conn.close();
+
+            // jTable1'i güncelle
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Tüm satırları temizle
+            fetchDataFromDatabase(); // jTable1 için verileri yeniden yükle
+            fetchComboBoxTutorData();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -287,6 +328,8 @@ public class Egitmenler extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Tüm satırları temizle
         fetchDataFromDatabase();
+        fetchComboBoxTutorData();
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
@@ -353,6 +396,48 @@ public class Egitmenler extends javax.swing.JFrame {
         jTable1.setRowSorter(null);
         //fetchDataFromDatabase();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Lütfen güncellemek istediğiniz satırı seçin.");
+            return;
+        }
+
+        int id = Integer.parseInt(jTable1.getValueAt(selectedRow, 0).toString()); // ID değeri 0. sütunda
+        String adi = jTable1.getValueAt(selectedRow, 1).toString();
+        String mail = jTable1.getValueAt(selectedRow, 2).toString(); // Mail bilgisi 1. sütunda
+        String telefon = jTable1.getValueAt(selectedRow, 3).toString(); // Telefon bilgisi 2. sütunda
+        String iban = jTable1.getValueAt(selectedRow, 4).toString();
+        String verilenKurs = jTable1.getValueAt(selectedRow, 5).toString(); // Verilen kurs bilgisi 4. sütunda
+        String musaitlik = jTable1.getValueAt(selectedRow, 6).toString();
+
+        // Güncelleme sorgusu oluşturma
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        String updateQuery = "UPDATE egitmen_etc SET adi = ?, mail = ?, telefon = ?, iban = ?, musait = ?, dersler = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+            
+            pstmt.setString(1, adi);
+            pstmt.setString(2, mail);
+            pstmt.setString(3, telefon);
+            pstmt.setString(4, iban);
+            pstmt.setString(5, musaitlik);
+            pstmt.setString(6, verilenKurs);
+            pstmt.setInt(7, id);
+            pstmt.executeUpdate(); // Güncelleme sorgusunu çalıştır
+
+            JOptionPane.showMessageDialog(null, "Seçili satırın bilgileri güncellendi.");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+    
     public void fetchData() {
         fetchDataFromDatabase();
     }
@@ -361,7 +446,7 @@ public class Egitmenler extends javax.swing.JFrame {
     String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
     String username = "root";
     String password = "etc5861";
-    String query = "SELECT egitmen_etc.adi, egitmen_etc.mail, egitmen_etc.telefon, egitmen_etc.iban, egitmen_etc.dersler, egitmen_etc.musait FROM egitmen_etc";
+    String query = "SELECT egitmen_etc.id, egitmen_etc.adi, egitmen_etc.mail, egitmen_etc.telefon, egitmen_etc.iban, egitmen_etc.dersler, egitmen_etc.musait FROM egitmen_etc";
 
 
     try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -372,6 +457,7 @@ public class Egitmenler extends javax.swing.JFrame {
 
             while (resultSet.next()) {
                 Object[] rowData = {
+                    resultSet.getObject("id"),
                     resultSet.getObject("adi"),
                     resultSet.getObject("mail"),
                     resultSet.getObject("telefon"),
@@ -423,7 +509,8 @@ public class Egitmenler extends javax.swing.JFrame {
     }
     private void fetchComboBoxTutorData() {
     // Özel kursları ekle
-       
+       jComboBox4.removeAllItems();
+       jComboBox4.addItem("seç");
         // Veritabanından gelen verileri ekle
         String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
         String username = "root";
@@ -462,6 +549,7 @@ public class Egitmenler extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;

@@ -6,6 +6,7 @@ package com.mycompany.etctakip;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -56,7 +58,6 @@ public class Billing extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jComboBox4 = new javax.swing.JComboBox<>();
         jButton6 = new javax.swing.JButton();
@@ -71,6 +72,8 @@ public class Billing extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -113,7 +116,7 @@ public class Billing extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -129,7 +132,7 @@ public class Billing extends javax.swing.JFrame {
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç", "gelir_eg", "gelir_di", "gider_eg", "gider_di" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç", "gelir", "gider", "gelir_eg", "gelir_di", "gider_eg", "gider_di", " " }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -140,13 +143,6 @@ public class Billing extends javax.swing.JFrame {
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox3ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Detay/Düzenle");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
             }
         });
 
@@ -189,21 +185,21 @@ public class Billing extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Öden(me)di");
+        jButton4.setText("ödendi/ödenmedi");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "none", "2023", "2024", "2025", "2026", "2027" }));
+        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033" }));
         jComboBox7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox7ActionPerformed(evt);
             }
         });
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "none", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seç", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
         jComboBox8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox8ActionPerformed(evt);
@@ -223,6 +219,20 @@ public class Billing extends javax.swing.JFrame {
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Diğer Ödeme Ekle");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Değişiklikleri Kaydet");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
             }
         });
 
@@ -289,11 +299,13 @@ public class Billing extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(37, 37, 37)
                                 .addComponent(jButton7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
+                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton5)
                                 .addGap(62, 62, 62))))
                     .addGroup(layout.createSequentialGroup()
@@ -355,10 +367,11 @@ public class Billing extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jButton3)
                                 .addComponent(jButton5)
                                 .addComponent(jButton4)
-                                .addComponent(jButton7)))
+                                .addComponent(jButton7)
+                                .addComponent(jButton8)
+                                .addComponent(jButton9)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
@@ -370,16 +383,55 @@ public class Billing extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+            // Seçili satırın indeksini al
+    int selectedRowIndex = jTable1.getSelectedRow();
+    if (selectedRowIndex == -1) {
+        JOptionPane.showMessageDialog(null, "Lütfen güncellemek istediğiniz satırı seçin.");
+        return;
+    }
+    
+    // Seçili satırın tick değerini al
+    String currentTickValue = jTable1.getValueAt(selectedRowIndex, 5).toString();
+    
+    // Yeni tick değerini belirle
+    String newTickValue = currentTickValue.equals("ödendi") ? "ödenmedi" : "ödendi";
+    
+    // Tabloda ve veritabanında güncelleme yap
+    try {
+        // Seçili satırın ID'sini al
+        int selectedRowID = Integer.parseInt(jTable1.getValueAt(selectedRowIndex, 0).toString());
+        
+        // Tabloda güncelleme yap
+        jTable1.setValueAt(newTickValue, selectedRowIndex, 5);
+        
+        // Veritabanında güncelleme yap
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        
+        // Veritabanı bağlantısını oluştur
+        Connection conn = DriverManager.getConnection(url, username, password);
+        
+        // PreparedStatement oluştur ve güncelleme sorgusunu hazırla
+        String updateQuery = "UPDATE billing SET tick = ? WHERE id = ?";
+        PreparedStatement updateStatement = conn.prepareStatement(updateQuery);
+        updateStatement.setString(1, newTickValue);
+        updateStatement.setInt(2, selectedRowID);
+        
+        // Sorguyu çalıştır ve güncelleme yap
+        updateStatement.executeUpdate();
+        
+        // Bağlantıyı kapat
+        conn.close();
+        
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -417,8 +469,8 @@ public class Billing extends javax.swing.JFrame {
         }
         // Kurs filter
         if (!kindFilter.equals("seç")) {
-            filters.add(RowFilter.regexFilter(kindFilter, 2)); // 1 is the index of ad column
-        }
+            filters.add(RowFilter.regexFilter(".*" + kindFilter + ".*", 2)); // 2 is the index of the kind column
+        } 
 
         
         if (!odenmeFilter.equals("seç")) {
@@ -462,10 +514,20 @@ public class Billing extends javax.swing.JFrame {
         String selectedMonth = jComboBox8.getSelectedItem().toString();
         String selectedYear = jComboBox7.getSelectedItem().toString();
         boolean includePaid = jCheckBox1.isSelected();
-
+        
+        String startDateString ="2023/01/01";
+        String endDateString = "2033/12/31"; 
+        
         // Ay ve yıl değerlerini kullanarak tarih aralığını oluştur
-        String startDateString = selectedYear + "/" + selectedMonth + "/01";
-        String endDateString = selectedYear + "/" + selectedMonth + "/31"; // Varsayılan olarak ayın son günü alınıyor
+        if(!selectedMonth.equals("seç") && !selectedYear.equals("seç")){
+            startDateString = selectedYear + "/" + selectedMonth + "/01";
+            endDateString = selectedYear + "/" + selectedMonth + "/31"; // Varsayılan olarak ayın son günü alınıyor
+        }
+        
+        if(selectedMonth.equals("seç") && !selectedYear.equals("seç")){
+            startDateString = selectedYear + "/01/01";
+            endDateString = selectedYear + "/12/31"; // Varsayılan olarak ayın son günü alınıyor
+        }
 
         try {
             // Tarih aralığını java.util.Date formatına çevir
@@ -505,20 +567,10 @@ public class Billing extends javax.swing.JFrame {
                 if (!includePaid && paymentStatus.equals("ödendi")) {
                     continue;
                 }
-                
-                System.out.println("1");
-                System.out.println("Row " + (i + 1) + " Payment Date: " + paymentDate);
-
-                System.out.println("Row " + (i + 1) + " Amount: " + paymentAmount);
-
                 // Tarih aralığına göre filtreleme
                 if (paymentDate.before(startDate) || paymentDate.after(endDate)) {
                     continue; // Ödeme tarihi belirtilen aralıkta değilse bu satırı atla
                 }
-                System.out.println("2");
-                System.out.println("Row " + (i + 1) + " Payment Date: " + paymentDate);
-
-                System.out.println("Row " + (i + 1) + " Amount: " + paymentAmount);    
 
                 // Yukarıdaki koşulları sağlayan ödemelerin miktarını topla
                 totalPaymentAmount += paymentAmount;
@@ -526,10 +578,48 @@ public class Billing extends javax.swing.JFrame {
 
             // Toplam ödeme miktarını jTextField3'e yaz
             jTextField3.setText(String.valueOf(totalPaymentAmount));
+            
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+                //id, adi, telefon, mail, kurs, aktiflik
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Lütfen güncellemek istediğiniz satırı seçin.");
+            return;
+        }
+
+        int id = Integer.parseInt(jTable1.getValueAt(selectedRow, 0).toString()); // ID değeri 0. sütunda
+        String amount = jTable1.getValueAt(selectedRow, 4).toString();
+        
+
+        // Güncelleme sorgusu oluşturma
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        String updateQuery = "UPDATE billing SET amount = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+            
+            pstmt.setString(1, amount);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate(); // Güncelleme sorgusunu çalıştır
+
+            JOptionPane.showMessageDialog(null, "Seçili satırın bilgileri güncellendi.");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -629,11 +719,12 @@ public class Billing extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;

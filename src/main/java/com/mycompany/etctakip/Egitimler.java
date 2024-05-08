@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonModel;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -332,56 +333,81 @@ public class Egitimler extends javax.swing.JFrame {
         String username = "root";
         String password = "etc5861";
         int selectedRowIndex = jTable1.getSelectedRow();
+        if (selectedRowIndex == -1) {
+            JOptionPane.showMessageDialog(null, "Lütfen silmek istediğiniz satırı seçin.");
+            return;
+        }
 
         // Seçili satırdaki eğitim ID'sini al
         int selectedEgitimID = Integer.parseInt(jTable1.getValueAt(selectedRowIndex, 0).toString());
+        int choice = JOptionPane.showConfirmDialog(null, "Seçili satırı silmek istediğinizden emin misiniz?", "Onay", JOptionPane.YES_NO_OPTION);
+        
+        if (choice == JOptionPane.YES_OPTION) {
+            try {
+                // Veritabanı bağlantısını oluştur
+                Connection conn = DriverManager.getConnection(url, username, password);
 
-        try {
-            // Veritabanı bağlantısını oluştur
-            Connection conn = DriverManager.getConnection(url, username, password);
+                // PreparedStatement oluştur ve ödemeleri bulmak için sorguyu hazırla
+                PreparedStatement findPaymentIdStmt = conn.prepareStatement("SELECT odeme_id FROM odeme_egitim_id WHERE egitim_id = ?");
+                findPaymentIdStmt.setInt(1, selectedEgitimID);
 
-            // PreparedStatement oluştur ve ödemeleri bulmak için sorguyu hazırla
-            PreparedStatement findPaymentIdStmt = conn.prepareStatement("SELECT odeme_id FROM odeme_egitim_id WHERE egitim_id = ?");
-            findPaymentIdStmt.setInt(1, selectedEgitimID);
+                // Sorguyu çalıştır ve ödeme ID'lerini al
+                ResultSet paymentIdResult = findPaymentIdStmt.executeQuery();
+                while (paymentIdResult.next()) {
+                    int paymentID = paymentIdResult.getInt("odeme_id");
 
-            // Sorguyu çalıştır ve ödeme ID'lerini al
-            ResultSet paymentIdResult = findPaymentIdStmt.executeQuery();
-            while (paymentIdResult.next()) {
-                int paymentID = paymentIdResult.getInt("odeme_id");
+                    // Billing tablosundan ödemeyi sil
+                    PreparedStatement deleteBillingStmt = conn.prepareStatement("DELETE FROM billing WHERE id = ?");
+                    deleteBillingStmt.setInt(1, paymentID);
+                    deleteBillingStmt.executeUpdate();
 
-                // Billing tablosundan ödemeyi sil
-                PreparedStatement deleteBillingStmt = conn.prepareStatement("DELETE FROM billing WHERE id = ?");
-                deleteBillingStmt.setInt(1, paymentID);
-                deleteBillingStmt.executeUpdate();
-                
-                PreparedStatement deleteOdemeEgitimStmt = conn.prepareStatement("DELETE FROM odeme_egitim_id WHERE odeme_id = ?");
-                deleteOdemeEgitimStmt.setInt(1, paymentID);
-                deleteOdemeEgitimStmt.executeUpdate();
+                    PreparedStatement deleteOdemeEgitimStmt = conn.prepareStatement("DELETE FROM odeme_egitim_id WHERE odeme_id = ?");
+                    deleteOdemeEgitimStmt.setInt(1, paymentID);
+                    deleteOdemeEgitimStmt.executeUpdate();
+                }
+
+                PreparedStatement findogrIdStmt = conn.prepareStatement("SELECT ogrenci_id FROM egitim_ogrenci_id WHERE course_id = ?");
+                findogrIdStmt.setInt(1, selectedEgitimID);
+
+                // Sorguyu çalıştır ve ödeme ID'lerini al
+                ResultSet ogrIdResult = findogrIdStmt.executeQuery();
+                while (ogrIdResult.next()) {
+                    int ogrID = ogrIdResult.getInt("ogrenci_id");
+
+                    // Billing tablosundan ödemeyi sil
+                    PreparedStatement deleteOgrStmt = conn.prepareStatement("DELETE FROM ogrenci_etc WHERE id = ?");
+                    deleteOgrStmt.setInt(1, ogrID);
+                    deleteOgrStmt.executeUpdate();
+
+                    PreparedStatement deleteOgredStmt = conn.prepareStatement("DELETE FROM egitim_ogrenci_id WHERE ogrenci_id = ?");
+                    deleteOgredStmt.setInt(1, ogrID);
+                    deleteOgredStmt.executeUpdate();
+                }
+
+
+
+                // Diğer tablolardan ilgili satırları sil
+                PreparedStatement deleteEgitimStmt = conn.prepareStatement("DELETE FROM egitim_etc WHERE id = ?");
+                deleteEgitimStmt.setInt(1, selectedEgitimID);
+                deleteEgitimStmt.executeUpdate();
+
+                PreparedStatement deleteEgitmenStmt = conn.prepareStatement("DELETE FROM egitim_egitmen_id WHERE egitim_id = ?");
+                deleteEgitmenStmt.setInt(1, selectedEgitimID);
+                deleteEgitmenStmt.executeUpdate();
+
+
+                // Bağlantıyı kapat
+                conn.close();
+
+                // jTable1'i güncelle
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0); // Tüm satırları temizle
+                fetchDataFromDatabase(); // jTable1 için verileri yeniden yükle
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-
-            // Diğer tablolardan ilgili satırları sil
-            PreparedStatement deleteEgitimStmt = conn.prepareStatement("DELETE FROM egitim_etc WHERE id = ?");
-            deleteEgitimStmt.setInt(1, selectedEgitimID);
-            deleteEgitimStmt.executeUpdate();
-
-            PreparedStatement deleteEgitmenStmt = conn.prepareStatement("DELETE FROM egitim_egitmen_id WHERE egitim_id = ?");
-            deleteEgitmenStmt.setInt(1, selectedEgitimID);
-            deleteEgitmenStmt.executeUpdate();
-
-            PreparedStatement deleteOgrenciStmt = conn.prepareStatement("DELETE FROM egitim_ogrenci_id WHERE course_id = ?");
-            deleteOgrenciStmt.setInt(1, selectedEgitimID);
-            deleteOgrenciStmt.executeUpdate();
-
-            // Bağlantıyı kapat
-            conn.close();
-
-            // jTable1'i güncelle
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0); // Tüm satırları temizle
-            fetchDataFromDatabase(); // jTable1 için verileri yeniden yükle
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -392,6 +418,10 @@ public class Egitimler extends javax.swing.JFrame {
         
         // Seçili satırın indeksini al
         int selectedRowIndex = jTable1.getSelectedRow();
+        if (selectedRowIndex == -1) {
+            JOptionPane.showMessageDialog(null, "Lütfen güncellemek istediğiniz satırı seçin.");
+            return;
+        }
 
         // Seçili satırdaki eğitim ID'sini al
         int selectedEgitimID = Integer.parseInt(jTable1.getValueAt(selectedRowIndex, 0).toString());

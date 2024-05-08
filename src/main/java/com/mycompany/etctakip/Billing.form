@@ -103,11 +103,13 @@
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jButton9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton4" min="-2" pref="203" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" pref="203" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                              <Component id="jButton8" min="-2" pref="173" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jButton4" min="-2" pref="173" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jButton5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                           </Group>
@@ -185,10 +187,11 @@
                           <Component id="jScrollPane1" min="-2" pref="602" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton9" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jSeparator3" min="-2" pref="665" max="-2" attributes="0"/>
@@ -263,7 +266,7 @@
                 <Column editable="false" title="Ad&#x131; Soyad&#x131;" type="java.lang.String"/>
                 <Column editable="false" title="&#xd6;deme Tipi" type="java.lang.String"/>
                 <Column editable="false" title="&#xd6;deme Tarihi" type="java.lang.String"/>
-                <Column editable="false" title="Miktar" type="java.lang.Integer"/>
+                <Column editable="true" title="Miktar" type="java.lang.Integer"/>
                 <Column editable="false" title="&#xd6;dendi mi?" type="java.lang.String"/>
               </Table>
             </Property>
@@ -280,12 +283,15 @@
     <Component class="javax.swing.JComboBox" name="jComboBox2">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="8">
             <StringItem index="0" value="se&#xe7;"/>
-            <StringItem index="1" value="gelir_eg"/>
-            <StringItem index="2" value="gelir_di"/>
-            <StringItem index="3" value="gider_eg"/>
-            <StringItem index="4" value="gider_di"/>
+            <StringItem index="1" value="gelir"/>
+            <StringItem index="2" value="gider"/>
+            <StringItem index="3" value="gelir_eg"/>
+            <StringItem index="4" value="gelir_di"/>
+            <StringItem index="5" value="gider_eg"/>
+            <StringItem index="6" value="gider_di"/>
+            <StringItem index="7" value=" "/>
           </StringArray>
         </Property>
       </Properties>
@@ -312,14 +318,6 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Detay/D&#xfc;zenle"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>
@@ -382,7 +380,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#xd6;den(me)di"/>
+        <Property name="text" type="java.lang.String" value="&#xf6;dendi/&#xf6;denmedi"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
@@ -391,13 +389,19 @@
     <Component class="javax.swing.JComboBox" name="jComboBox7">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="none"/>
+          <StringArray count="12">
+            <StringItem index="0" value="se&#xe7;"/>
             <StringItem index="1" value="2023"/>
             <StringItem index="2" value="2024"/>
             <StringItem index="3" value="2025"/>
             <StringItem index="4" value="2026"/>
             <StringItem index="5" value="2027"/>
+            <StringItem index="6" value="2028"/>
+            <StringItem index="7" value="2029"/>
+            <StringItem index="8" value="2030"/>
+            <StringItem index="9" value="2031"/>
+            <StringItem index="10" value="2032"/>
+            <StringItem index="11" value="2033"/>
           </StringArray>
         </Property>
       </Properties>
@@ -412,7 +416,7 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="13">
-            <StringItem index="0" value="none"/>
+            <StringItem index="0" value="se&#xe7;"/>
             <StringItem index="1" value="1"/>
             <StringItem index="2" value="2"/>
             <StringItem index="3" value="3"/>
@@ -454,6 +458,22 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton8">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Di&#x11f;er &#xd6;deme Ekle"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton9">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="De&#x11f;i&#x15f;iklikleri Kaydet"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton9ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
