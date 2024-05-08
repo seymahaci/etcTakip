@@ -382,17 +382,17 @@ public class Ogrenciler extends javax.swing.JFrame {
 
         // Adi filter
         if (!adiFilter.isEmpty()) {
-            filters.add(RowFilter.regexFilter(adiFilter, 0)); // 0 is the index of adi column
+            filters.add(RowFilter.regexFilter(adiFilter, 1)); // 0 is the index of adi column
         }
 
         // Kurs filter
         if (!kursFilter.equals("seç")) {
-            filters.add(RowFilter.regexFilter(kursFilter, 3)); // 3 is the index of kurs column
+            filters.add(RowFilter.regexFilter(kursFilter, 4)); // 3 is the index of kurs column
         }
 
         // Aktiflik filter
         if (!aktiflikFilter.equals("seç")) {
-            filters.add(RowFilter.regexFilter(aktiflikFilter, 4)); // 4 is the index of aktiflik column
+            filters.add(RowFilter.regexFilter(aktiflikFilter, 5)); // 4 is the index of aktiflik column
         }
 
         RowFilter<Object,Object> combinedFilter = RowFilter.andFilter(filters);

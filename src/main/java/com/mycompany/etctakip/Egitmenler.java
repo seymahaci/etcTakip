@@ -352,7 +352,7 @@ public class Egitmenler extends javax.swing.JFrame {
 
         // Kurs filter
         if (!adFilter.equals("seç")) {
-            filters.add(RowFilter.regexFilter(adFilter, 0)); // 1 is the index of ad column
+            filters.add(RowFilter.regexFilter(adFilter, 1)); // 1 is the index of ad column
         }
 
         // Eğitmen filter
@@ -363,7 +363,7 @@ public class Egitmenler extends javax.swing.JFrame {
             // Filtre oluşturma
             List<RowFilter<Object, Object>> courseFilters = new ArrayList<>();
             for (String course : selectedCourses) {
-                courseFilters.add(RowFilter.regexFilter(course, 4)); // Kurslar sütunu, 0'dan başlamadığı için 4'te olabilir
+                courseFilters.add(RowFilter.regexFilter(course, 5)); // Kurslar sütunu, 0'dan başlamadığı için 4'te olabilir
             }
 
             // Combine filters using OR logic
@@ -374,7 +374,7 @@ public class Egitmenler extends javax.swing.JFrame {
         }
         
         if (!uygunFilter.equals("seç")) {
-            filters.add(RowFilter.regexFilter(uygunFilter, 5)); // 5 is the index of uygunluk column
+            filters.add(RowFilter.regexFilter(uygunFilter, 6)); // 5 is the index of uygunluk column
         }
 
 
