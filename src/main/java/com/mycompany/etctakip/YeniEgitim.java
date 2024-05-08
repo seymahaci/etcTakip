@@ -64,7 +64,7 @@ public class YeniEgitim extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kurs Seç", "YDS", "YÖKDİL", "IELTS", "TOEFL" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kurs Seç", "Konuşma", "Genel İngilizce", "YDS", "YÖKDİL", "IELTS", "TOEFL" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -91,7 +91,7 @@ public class YeniEgitim extends javax.swing.JFrame {
 
         jLabel3.setText("Eğitmen");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "yyyy", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "yyyy", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
         jComboBox4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox4ActionPerformed(evt);
@@ -130,7 +130,7 @@ public class YeniEgitim extends javax.swing.JFrame {
             }
         });
 
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "yyyy", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
+        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "yyyy", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030" }));
         jComboBox9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox9ActionPerformed(evt);
@@ -382,16 +382,17 @@ public class YeniEgitim extends javax.swing.JFrame {
             connection.setAutoCommit(false);
 
             // First, insert into egitim_etc
-            String insertEgitimQuery = "INSERT INTO egitim_etc (kind, donem, price, baslama_tarihi, bitis_tarihi, kurs_suresi_ay, kurs_saati, aktif) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertEgitimQuery = "INSERT INTO egitim_etc (kind, donem, price, egprice, baslama_tarihi, bitis_tarihi, kurs_suresi_ay, kurs_saati, aktif) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(insertEgitimQuery, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, kurskind);
             preparedStatement.setString(2, donem);
             preparedStatement.setString(3, couprice);
-            preparedStatement.setString(4, basdate);
-            preparedStatement.setString(5, bitisdate);
-            preparedStatement.setString(6, sAy);
-            preparedStatement.setString(7, sSaat);
-            preparedStatement.setString(8, "aktif");
+            preparedStatement.setString(4, egiprice);
+            preparedStatement.setString(5, basdate);
+            preparedStatement.setString(6, bitisdate);
+            preparedStatement.setString(7, sAy);
+            preparedStatement.setString(8, sSaat);
+            preparedStatement.setString(9, "aktif");
             preparedStatement.executeUpdate();
 
             // Get the auto-generated id for the inserted row in egitim_etc

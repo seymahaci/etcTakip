@@ -63,9 +63,11 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="jButton6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="463" max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" pref="189" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jButton7" min="-2" pref="132" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButton3" min="-2" pref="129" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton4" min="-2" pref="124" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                               <Component id="jButton5" min="-2" max="-2" attributes="0"/>
@@ -123,6 +125,7 @@
                               <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jSeparator3" min="-2" pref="665" max="-2" attributes="0"/>
@@ -204,8 +207,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Detay/D&#xfc;zenle"/>
+        <Property name="text" type="java.lang.String" value="E&#x11f;itimi Sil"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton4">
       <Properties>
@@ -273,6 +279,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton7">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="aktif/inaktif"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -7,6 +7,7 @@ package com.mycompany.etctakip;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -66,6 +67,7 @@ public class Egitimler extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -115,7 +117,12 @@ public class Egitimler extends javax.swing.JFrame {
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jButton3.setText("Detay/Düzenle");
+        jButton3.setText("Eğitimi Sil");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Yeni Eğitim");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -159,6 +166,13 @@ public class Egitimler extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setText("aktif/inaktif");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,9 +206,11 @@ public class Egitimler extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(32, 32, 32)
                                 .addComponent(jButton6)
-                                .addGap(463, 463, 463)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(45, 45, 45)
                                 .addComponent(jButton5)
@@ -239,7 +255,8 @@ public class Egitimler extends javax.swing.JFrame {
                                 .addComponent(jButton3)
                                 .addComponent(jButton4)
                                 .addComponent(jButton5)
-                                .addComponent(jButton6)))
+                                .addComponent(jButton6)
+                                .addComponent(jButton7)))
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
@@ -262,6 +279,8 @@ public class Egitimler extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Tüm satırları temizle
         fetchDataFromDatabase();
+        jComboBox1.removeAllItems();
+        fetchComboBoxCourseData();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -306,6 +325,110 @@ public class Egitimler extends javax.swing.JFrame {
         jTable1.setRowSorter(null);
         //fetchDataFromDatabase();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Seçili satırın indeksini al
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        int selectedRowIndex = jTable1.getSelectedRow();
+
+        // Seçili satırdaki eğitim ID'sini al
+        int selectedEgitimID = Integer.parseInt(jTable1.getValueAt(selectedRowIndex, 0).toString());
+
+        try {
+            // Veritabanı bağlantısını oluştur
+            Connection conn = DriverManager.getConnection(url, username, password);
+
+            // PreparedStatement oluştur ve ödemeleri bulmak için sorguyu hazırla
+            PreparedStatement findPaymentIdStmt = conn.prepareStatement("SELECT odeme_id FROM odeme_egitim_id WHERE egitim_id = ?");
+            findPaymentIdStmt.setInt(1, selectedEgitimID);
+
+            // Sorguyu çalıştır ve ödeme ID'lerini al
+            ResultSet paymentIdResult = findPaymentIdStmt.executeQuery();
+            while (paymentIdResult.next()) {
+                int paymentID = paymentIdResult.getInt("odeme_id");
+
+                // Billing tablosundan ödemeyi sil
+                PreparedStatement deleteBillingStmt = conn.prepareStatement("DELETE FROM billing WHERE id = ?");
+                deleteBillingStmt.setInt(1, paymentID);
+                deleteBillingStmt.executeUpdate();
+                
+                PreparedStatement deleteOdemeEgitimStmt = conn.prepareStatement("DELETE FROM odeme_egitim_id WHERE odeme_id = ?");
+                deleteOdemeEgitimStmt.setInt(1, paymentID);
+                deleteOdemeEgitimStmt.executeUpdate();
+            }
+
+            // Diğer tablolardan ilgili satırları sil
+            PreparedStatement deleteEgitimStmt = conn.prepareStatement("DELETE FROM egitim_etc WHERE id = ?");
+            deleteEgitimStmt.setInt(1, selectedEgitimID);
+            deleteEgitimStmt.executeUpdate();
+
+            PreparedStatement deleteEgitmenStmt = conn.prepareStatement("DELETE FROM egitim_egitmen_id WHERE egitim_id = ?");
+            deleteEgitmenStmt.setInt(1, selectedEgitimID);
+            deleteEgitmenStmt.executeUpdate();
+
+            PreparedStatement deleteOgrenciStmt = conn.prepareStatement("DELETE FROM egitim_ogrenci_id WHERE course_id = ?");
+            deleteOgrenciStmt.setInt(1, selectedEgitimID);
+            deleteOgrenciStmt.executeUpdate();
+
+            // Bağlantıyı kapat
+            conn.close();
+
+            // jTable1'i güncelle
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Tüm satırları temizle
+            fetchDataFromDatabase(); // jTable1 için verileri yeniden yükle
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // Seçili satırın indeksini al
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
+        
+        // Seçili satırın indeksini al
+        int selectedRowIndex = jTable1.getSelectedRow();
+
+        // Seçili satırdaki eğitim ID'sini al
+        int selectedEgitimID = Integer.parseInt(jTable1.getValueAt(selectedRowIndex, 0).toString());
+
+        try {
+            // Veritabanı bağlantısını oluştur
+            Connection conn = DriverManager.getConnection(url, username, password);
+
+            // Eğitimin mevcut durumunu al
+            PreparedStatement getAktifStmt = conn.prepareStatement("SELECT aktif FROM egitim_etc WHERE id = ?");
+            getAktifStmt.setInt(1, selectedEgitimID);
+            ResultSet aktifResult = getAktifStmt.executeQuery();
+            if (aktifResult.next()) {
+                String currentStatus = aktifResult.getString("aktif");
+
+                // Durumu tersine çevir
+                String newStatus = currentStatus.equals("aktif") ? "inaktif" : "aktif";
+
+                // Durumu güncelle
+                PreparedStatement updateStatusStmt = conn.prepareStatement("UPDATE egitim_etc SET aktif = ? WHERE id = ?");
+                updateStatusStmt.setString(1, newStatus);
+                updateStatusStmt.setInt(2, selectedEgitimID);
+                updateStatusStmt.executeUpdate();
+            }
+
+            // Bağlantıyı kapat
+            conn.close();
+
+            // jTable1'i güncelle
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Tüm satırları temizle
+            fetchDataFromDatabase(); // jTable1 için verileri yeniden yükle
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+    
     private void fetchDataFromDatabase() {
         String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
         String username = "root";
@@ -386,10 +509,11 @@ public class Egitimler extends javax.swing.JFrame {
     }
     private void fetchComboBoxCourseData() {
     // Özel kursları ekle
-        jComboBox1.addItem("YÖKDİL");
-        jComboBox1.addItem("YDS");
+        jComboBox1.addItem("seç");
         jComboBox1.addItem("Genel İngilizce");
         jComboBox1.addItem("Konuşma");
+        jComboBox1.addItem("YÖKDİL");
+        jComboBox1.addItem("YDS");
         jComboBox1.addItem("IELTS");
         jComboBox1.addItem("TOEFL");
 
@@ -446,6 +570,7 @@ public class Egitimler extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;

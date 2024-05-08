@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 02, 2024 at 09:06 PM
+-- Generation Time: May 08, 2024 at 12:23 PM
 -- Server version: 11.3.2-MariaDB
 -- PHP Version: 8.3.3
 
@@ -43,9 +43,6 @@ INSERT INTO `billing` (`id`, `date`, `type_in_out`, `amount`, `tick`) VALUES
 (59, '2025-04-17', 'gider_eg', 12800, 'ödenmedi'),
 (60, '2025-05-17', 'gider_eg', 12800, 'ödenmedi'),
 (61, '2025-06-17', 'gider_eg', 12800, 'ödenmedi'),
-(62, '2024-12-17', 'gider_eg', 14400, 'ödenmedi'),
-(63, '2025-01-17', 'gider_eg', 14400, 'ödenmedi'),
-(64, '2025-02-17', 'gider_eg', 14400, 'ödenmedi'),
 (68, '2024-05-02', 'gelir_eg', 7800, 'ödenmedi'),
 (69, '2024-05-02', 'gelir_eg', 1560, 'ödenmedi'),
 (70, '2024-06-02', 'gelir_eg', 1560, 'ödenmedi'),
@@ -69,8 +66,7 @@ CREATE TABLE `egitim_egitmen_id` (
 --
 
 INSERT INTO `egitim_egitmen_id` (`egitim_id`, `egitmen_id`) VALUES
-(18, 23455),
-(19, 23457);
+(18, 23455);
 
 -- --------------------------------------------------------
 
@@ -83,6 +79,7 @@ CREATE TABLE `egitim_etc` (
   `kind` varchar(15) NOT NULL,
   `donem` varchar(25) NOT NULL,
   `price` float NOT NULL,
+  `egprice` int(11) NOT NULL,
   `baslama_tarihi` date NOT NULL,
   `bitis_tarihi` date NOT NULL,
   `kurs_suresi_ay` int(11) NOT NULL,
@@ -94,9 +91,8 @@ CREATE TABLE `egitim_etc` (
 -- Dumping data for table `egitim_etc`
 --
 
-INSERT INTO `egitim_etc` (`id`, `kind`, `donem`, `price`, `baslama_tarihi`, `bitis_tarihi`, `kurs_suresi_ay`, `kurs_saati`, `aktif`) VALUES
-(18, 'IELTS', '1', 7800, '2025-03-01', '2025-06-01', 3, 48, 'aktif'),
-(19, 'IELTS', '2', 12340, '2024-11-04', '2025-02-04', 3, 48, 'inaktif');
+INSERT INTO `egitim_etc` (`id`, `kind`, `donem`, `price`, `egprice`, `baslama_tarihi`, `bitis_tarihi`, `kurs_suresi_ay`, `kurs_saati`, `aktif`) VALUES
+(18, 'IELTS', '1', 7800, 0, '2025-03-01', '2025-06-01', 3, 48, 'inaktif');
 
 -- --------------------------------------------------------
 
@@ -177,9 +173,6 @@ INSERT INTO `odeme_egitim_id` (`odeme_id`, `taraf_id`, `egitim_id`) VALUES
 (59, 23455, 18),
 (60, 23455, 18),
 (61, 23455, 18),
-(62, 23457, 19),
-(63, 23457, 19),
-(64, 23457, 19),
 (68, 5, 18),
 (69, 6, 18),
 (70, 6, 18),
@@ -273,13 +266,13 @@ ALTER TABLE `ogrenci_etc`
 -- AUTO_INCREMENT for table `billing`
 --
 ALTER TABLE `billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `egitim_etc`
 --
 ALTER TABLE `egitim_etc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `egitmen_etc`
