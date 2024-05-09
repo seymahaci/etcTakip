@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -19,7 +20,9 @@ import java.util.logging.Logger;
  * @author frankie
  */
 public class YeniEgitim extends javax.swing.JFrame {
-
+    String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+    String username = "root";
+    String password = "etc5861";
     /**
      * Creates new form YeniEgitim
      */
@@ -372,11 +375,38 @@ public class YeniEgitim extends javax.swing.JFrame {
         PreparedStatement preparedStatement = null;
         PreparedStatement billingStatement = null;
         PreparedStatement odemeEgitmenStatement = null;
+        PreparedStatement egitmenimStatement = null;
+        
+        
+        
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+            String query = "SELECT dersler FROM egitmen_etc WHERE adi = ?";
+            
+            egitmenimStatement = connection.prepareStatement(query);
+            egitmenimStatement.setString(1, egitmenAdi);
+            ResultSet resultSet = egitmenimStatement.executeQuery();
+            if (resultSet.next()) {
+                String dersler = resultSet.getString("dersler");
+                if (!dersler.contains(kurskind)) {
+                    int confirm = JOptionPane.showConfirmDialog(null, "Bu eğitmen bu kursu vermiyor. Devam etmek istediğinize emin misiniz?", "Uyarı", JOptionPane.YES_NO_OPTION);
+                    if (confirm != JOptionPane.YES_OPTION) {
+                        return; // Fonksiyonu burada sonlandır
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Eğitmen bulunamadı.");
+                return; // Fonksiyonu burada sonlandır
+            }
+            
+        } catch (SQLException ex1) {
+            Logger.getLogger(YeniEgitim.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+        
+        
 
         try {
-            String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-            String username = "root";
-            String password = "etc5861";
+            
 
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
@@ -567,9 +597,6 @@ public class YeniEgitim extends javax.swing.JFrame {
         });
     }
     private void populateComboBox() {
-        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-        String username = "root";
-        String password = "etc5861";
         String query = "SELECT DISTINCT adi FROM egitmen_etc";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
