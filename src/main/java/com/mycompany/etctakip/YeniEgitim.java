@@ -23,6 +23,9 @@ public class YeniEgitim extends javax.swing.JFrame {
     String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
     String username = "root";
     String password = "etc5861";
+    
+    private static List<String> egitmenAdiListesi = new ArrayList<>();
+    //private static List<String> egitmenUcretListesi = new ArrayList<>();
     /**
      * Creates new form YeniEgitim
      */
@@ -30,6 +33,19 @@ public class YeniEgitim extends javax.swing.JFrame {
         initComponents();
         populateComboBox();
     }
+    
+    public static void egitmenEkle(String adi) {
+        egitmenAdiListesi.add(adi);
+        //egitmenUcretListesi.add(ucret);
+    }
+    
+    public static List<String> getEgitmenAdiListesi() {
+        return egitmenAdiListesi;
+    }
+    
+    //public static List<String> getEgitmenUcretListesi() {
+    //    return egitmenUcretListesi;
+    //}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,6 +80,7 @@ public class YeniEgitim extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,7 +93,7 @@ public class YeniEgitim extends javax.swing.JFrame {
 
         jLabel1.setText("Kurs Tipi");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dönem Seç", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dönem Seç", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "100", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116", "117", "118", "119", "120", "121", "122", "123", "124", "125", "126", "127", "128", "129", "130", "131", "132", "133", "134", "135", "136", "137", "138", "139", "140", "141", "142", "143", "144", "145", "146", "147", "148", "149", "150", "151", "152", "153", "154", "155", "156", "157", "158", "159", "160", "161", "162", "163", "164", "165", "166", "167", "168", "169", "170", "171", "172", "173", "174", "175", "176", "177", "178", "179", "180", "181", "182", "183", "184", "185", "186", "187", "188", "189", "190", "191", "192", "193", "194", "195", "196", "197", "198", "199", "200", "201", "202", "203", "204", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216", "217", "218", "219", "220", "221", "222", "223", "224", "225", "226", "227", "228", "229", "230", "231", "232", "233", "234", "235", "236", "237", "238", "239", "240", "241", "242", "243", "244", "245", "246", "247", "248", "249", "250", "251", "252", "253", "254", "255", "256", "257", "258", "259", "260", "261", "262", "263", "264", "265", "266", "267", "268", "269", "270", "271", "272", "273", "274", "275", "276", "277", "278", "279", "280", "281", "282", "283", "284", "285", "286", "287", "288", "289", "290", "291", "292", "293", "294", "295", "296", "297", "298", "299", "300" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -186,67 +203,17 @@ public class YeniEgitim extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Eğitmen Ekle");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(115, 115, 115)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(115, 115, 115)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 5, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(115, 115, 115)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(99, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,55 +225,111 @@ public class YeniEgitim extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(310, 310, 310))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(103, 103, 103)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(115, 115, 115)
+                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField4))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(53, 53, 53)
+                                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(27, 27, 27)
+                                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(26, 26, 26)
+                                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(53, 53, 53)
+                                    .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(27, 27, 27)
+                                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(26, 26, 26)
+                                    .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(115, 115, 115)
+                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(115, 115, 115)
+                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(14, 14, 14)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(53, 53, 53)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(371, 371, 371)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(69, 69, 69)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(5, 5, 5)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
@@ -355,7 +378,7 @@ public class YeniEgitim extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String kurskind = jComboBox1.getSelectedItem().toString();
         String donem = jComboBox2.getSelectedItem().toString();
-        String egitmenAdi = jComboBox3.getSelectedItem().toString();
+        //String egitmenAdi = jComboBox3.getSelectedItem().toString();
         String bitisday = String.format("%02d", jComboBox8.getSelectedIndex());
         String bitismonth = String.format("%02d", jComboBox7.getSelectedIndex());
         String bitisyear = jComboBox9.getSelectedItem().toString();
@@ -381,28 +404,37 @@ public class YeniEgitim extends javax.swing.JFrame {
         
         try {
             connection = DriverManager.getConnection(url, username, password);
-            String query = "SELECT dersler FROM egitmen_etc WHERE adi = ?";
-            
-            egitmenimStatement = connection.prepareStatement(query);
-            egitmenimStatement.setString(1, egitmenAdi);
-            ResultSet resultSet = egitmenimStatement.executeQuery();
-            if (resultSet.next()) {
-                String dersler = resultSet.getString("dersler");
-                if (!dersler.contains(kurskind)) {
-                    int confirm = JOptionPane.showConfirmDialog(null, "Bu eğitmen bu kursu vermiyor. Devam etmek istediğinize emin misiniz?", "Uyarı", JOptionPane.YES_NO_OPTION);
-                    if (confirm != JOptionPane.YES_OPTION) {
-                        return; // Fonksiyonu burada sonlandır
+            connection.setAutoCommit(false);
+
+            // Ders veren her eğitmen için işlem yap
+            for (int i = 0; i < egitmenAdiListesi.size(); i++) {
+                String egitmenAdi = egitmenAdiListesi.get(i);
+                //String egitmenUcreti = egitmenUcretListesi.get(i);
+
+                // Eğitmenin kurs verip vermediğini kontrol et
+                String query = "SELECT dersler FROM egitmen_etc WHERE adi = ?";
+                egitmenimStatement = connection.prepareStatement(query);
+                egitmenimStatement.setString(1, egitmenAdi);
+                ResultSet resultSet = egitmenimStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    String dersler = resultSet.getString("dersler");
+                    if (!dersler.contains(kurskind)) {
+                        int confirm = JOptionPane.showConfirmDialog(null, egitmenAdi + " bu kursu vermiyor. Devam etmek istediğinize emin misiniz?", "Uyarı", JOptionPane.YES_NO_OPTION);
+                        if (confirm != JOptionPane.YES_OPTION) {
+                            return; // Fonksiyonu burada sonlandır
+                        }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Eğitmen bulunamadı.");
+                    return; // Fonksiyonu burada sonlandır
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Eğitmen bulunamadı.");
-                return; // Fonksiyonu burada sonlandır
+
             }
-            
+
         } catch (SQLException ex1) {
             Logger.getLogger(YeniEgitim.class.getName()).log(Level.SEVERE, null, ex1);
         }
-        
         
 
         try {
@@ -434,76 +466,80 @@ public class YeniEgitim extends javax.swing.JFrame {
             generatedKeys.close();
 
             // Then, get the id of the selected egitmen_etc
-            String egitmenQuery = "SELECT id FROM egitmen_etc WHERE adi = ?";
-            PreparedStatement egitmenStatement = connection.prepareStatement(egitmenQuery);
-            egitmenStatement.setString(1, egitmenAdi);
-            ResultSet egitmenResult = egitmenStatement.executeQuery();
+            for(int i=0; i< egitmenAdiListesi.size(); i++){
+                String egitmenAdi = egitmenAdiListesi.get(i);
+                String egitmenQuery = "SELECT id FROM egitmen_etc WHERE adi = ?";
+                PreparedStatement egitmenStatement = connection.prepareStatement(egitmenQuery);
+                egitmenStatement.setString(1, egitmenAdi);
+                ResultSet egitmenResult = egitmenStatement.executeQuery();
 
-            int egitmenID = -1; // Default value if no egitmen found
-            if (egitmenResult.next()) {
-                egitmenID = egitmenResult.getInt("id");
+                int egitmenID = -1; // Default value if no egitmen found
+                if (egitmenResult.next()) {
+                    egitmenID = egitmenResult.getInt("id");
+                }
+
+                egitmenResult.close();
+                egitmenStatement.close();
+
+                // Insert the egitmen_etc id and egitim_etc id into egitim_egitmen_id table
+                String egitmenEgitimInsertQuery = "INSERT INTO egitim_egitmen_id (egitim_id, egitmen_id) VALUES (?, ?)";
+                odemeEgitmenStatement = connection.prepareStatement(egitmenEgitimInsertQuery);
+                odemeEgitmenStatement.setInt(1, egitimID);
+                odemeEgitmenStatement.setInt(2, egitmenID);
+                odemeEgitmenStatement.executeUpdate();
+
+                // Insert into billing table
+                String billingInsertQuery = "INSERT INTO billing (date, type_in_out, amount, tick) VALUES (?, ?, ?, 'ödenmedi')";
+                billingStatement = connection.prepareStatement(billingInsertQuery, Statement.RETURN_GENERATED_KEYS);
+
+                // Calculate date and amount for each entry
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(sdf.parse(basdate));
+                calendar.set(Calendar.DAY_OF_MONTH, 17); // Set the day to the 17th
+                calendar.add(Calendar.MONTH, 1);
+
+                double egipricePerHour = Double.parseDouble(egiprice);
+                double sSaatValue = Double.parseDouble(sSaat);
+                double sAyValue = Double.parseDouble(sAy);
+                double amount = (egipricePerHour * sSaatValue) / sAyValue;
+
+                for (int j = 0; j < Integer.parseInt(sAy); j++) {
+                    billingStatement.setString(1, sdf.format(calendar.getTime())); // Date
+                    billingStatement.setString(2, "gider_eg"); // type_in_out
+                    billingStatement.setDouble(3, amount); // amount
+                    billingStatement.addBatch();
+
+                    calendar.add(Calendar.MONTH, 1); // Move to the next month
+                }
+
+                billingStatement.executeBatch();
+
+                // Get the auto-generated id values for the inserted rows in billing table
+                ResultSet generatedBillingKeys = billingStatement.getGeneratedKeys();
+                List<Integer> billingIds = new ArrayList<>();
+                while (generatedBillingKeys.next()) {
+                    billingIds.add(generatedBillingKeys.getInt(1));
+                }
+                generatedBillingKeys.close();
+
+                // Insert into odeme_egitmen_id table
+                String odemeEgitmenInsertQuery = "INSERT INTO odeme_egitim_id (odeme_id, egitim_id, taraf_id) VALUES (?, ?, ?)";
+                odemeEgitmenStatement = connection.prepareStatement(odemeEgitmenInsertQuery);
+
+                // Insert the generated billing ids along with egitimID and egitmenID into odeme_egitmen_id table
+                for (Integer billingId : billingIds) {
+                    odemeEgitmenStatement.setInt(1, billingId);
+                    odemeEgitmenStatement.setInt(2, egitimID);
+                    odemeEgitmenStatement.setInt(3, egitmenID);
+                    odemeEgitmenStatement.addBatch();
+                }
+
+                odemeEgitmenStatement.executeBatch();
             }
-
-            egitmenResult.close();
-            egitmenStatement.close();
-
-            // Insert the egitmen_etc id and egitim_etc id into egitim_egitmen_id table
-            String egitmenEgitimInsertQuery = "INSERT INTO egitim_egitmen_id (egitim_id, egitmen_id) VALUES (?, ?)";
-            odemeEgitmenStatement = connection.prepareStatement(egitmenEgitimInsertQuery);
-            odemeEgitmenStatement.setInt(1, egitimID);
-            odemeEgitmenStatement.setInt(2, egitmenID);
-            odemeEgitmenStatement.executeUpdate();
-
-            // Insert into billing table
-            String billingInsertQuery = "INSERT INTO billing (date, type_in_out, amount, tick) VALUES (?, ?, ?, 'ödenmedi')";
-            billingStatement = connection.prepareStatement(billingInsertQuery, Statement.RETURN_GENERATED_KEYS);
-
-            // Calculate date and amount for each entry
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(sdf.parse(basdate));
-            calendar.set(Calendar.DAY_OF_MONTH, 17); // Set the day to the 17th
-            calendar.add(Calendar.MONTH, 1);
-
-            double egipricePerHour = Double.parseDouble(egiprice);
-            double sSaatValue = Double.parseDouble(sSaat);
-            double sAyValue = Double.parseDouble(sAy);
-            double amount = (egipricePerHour * sSaatValue) / sAyValue;
-
-            for (int i = 0; i < Integer.parseInt(sAy); i++) {
-                billingStatement.setString(1, sdf.format(calendar.getTime())); // Date
-                billingStatement.setString(2, "gider_eg"); // type_in_out
-                billingStatement.setDouble(3, amount); // amount
-                billingStatement.addBatch();
-
-                calendar.add(Calendar.MONTH, 1); // Move to the next month
-            }
-
-            billingStatement.executeBatch();
-
-            // Get the auto-generated id values for the inserted rows in billing table
-            ResultSet generatedBillingKeys = billingStatement.getGeneratedKeys();
-            List<Integer> billingIds = new ArrayList<>();
-            while (generatedBillingKeys.next()) {
-                billingIds.add(generatedBillingKeys.getInt(1));
-            }
-            generatedBillingKeys.close();
-
-            // Insert into odeme_egitmen_id table
-            String odemeEgitmenInsertQuery = "INSERT INTO odeme_egitim_id (odeme_id, egitim_id, taraf_id) VALUES (?, ?, ?)";
-            odemeEgitmenStatement = connection.prepareStatement(odemeEgitmenInsertQuery);
-
-            // Insert the generated billing ids along with egitimID and egitmenID into odeme_egitmen_id table
-            for (Integer billingId : billingIds) {
-                odemeEgitmenStatement.setInt(1, billingId);
-                odemeEgitmenStatement.setInt(2, egitimID);
-                odemeEgitmenStatement.setInt(3, egitmenID);
-                odemeEgitmenStatement.addBatch();
-            }
-
-            odemeEgitmenStatement.executeBatch();
             connection.commit();
-
+            
+            egitmenAdiListesi.clear();
             System.out.println("Values inserted successfully!");
 
             preparedStatement.close();
@@ -562,6 +598,15 @@ public class YeniEgitim extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String egitmenAdi = jComboBox3.getSelectedItem().toString();
+        //String egitmenUcreti = jTextField4.getText();
+        
+        egitmenEkle(egitmenAdi);
+        jComboBox3.setSelectedIndex(0);
+        //jTextField4.setText("");
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -605,6 +650,7 @@ public class YeniEgitim extends javax.swing.JFrame {
 
             // Clear existing items from the combo box
             jComboBox3.removeAllItems();
+            jComboBox3.addItem("seç");
 
             // Add kind values to the combo box
             while (resultSet.next()) {
@@ -620,6 +666,7 @@ public class YeniEgitim extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;

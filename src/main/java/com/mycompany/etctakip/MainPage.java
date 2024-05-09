@@ -64,7 +64,7 @@ public class MainPage extends javax.swing.JFrame {
         });
 
         jButton6.setFont(new java.awt.Font("Inconsolata Extra Expanded", 0, 18)); // NOI18N
-        jButton6.setText("etc Academy Yönetim Bilgi Sistemi");
+        jButton6.setText("Etc Academy Yönetim Bilgi Sistemi");
         jButton6.setToolTipText("");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

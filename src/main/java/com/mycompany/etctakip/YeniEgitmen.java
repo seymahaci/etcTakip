@@ -13,6 +13,9 @@ import javax.swing.JCheckBox;
  * @author frankie
  */
 public class YeniEgitmen extends javax.swing.JFrame {
+            String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+            String username = "root";
+            String password = "etc5861";
     /**
      * Creates new form YeniEgitim
      */
@@ -275,9 +278,7 @@ public class YeniEgitmen extends javax.swing.JFrame {
         };
 
         try {
-            String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-            String username = "root";
-            String password = "etc5861";
+
 
             Connection connection = DriverManager.getConnection(url, username, password);
             String query = "INSERT INTO egitmen_etc (adi, telefon, mail, iban, dersler, `notes`, musait) VALUES (?, ?, ?, ?, ?, ?, ?)";

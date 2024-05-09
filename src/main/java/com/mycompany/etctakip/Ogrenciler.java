@@ -24,9 +24,11 @@ import javax.swing.table.TableRowSorter;
  * @author frankie
  */
 public class Ogrenciler extends javax.swing.JFrame {
-
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
     /**
-     * Creates new form Egitimler
+     * Creates new form 
      */
     public Ogrenciler() {
         initComponents();
@@ -287,9 +289,7 @@ public class Ogrenciler extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Seçili satırın indeksini al
-        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-        String username = "root";
-        String password = "etc5861";
+
         int selectedRowIndex = jTable1.getSelectedRow();
         
         if (selectedRowIndex == -1) {
@@ -431,9 +431,7 @@ public class Ogrenciler extends javax.swing.JFrame {
         
 
         // Güncelleme sorgusu oluşturma
-        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-        String username = "root";
-        String password = "etc5861";
+
         String updateQuery = "UPDATE ogrenci_etc SET adi = ?, mail = ?, telefon = ? WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
@@ -499,9 +497,7 @@ public class Ogrenciler extends javax.swing.JFrame {
         jComboBox2.addItem("TOEFL");
 
         // Veritabanından gelen verileri ekle
-        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-        String username = "root";
-        String password = "etc5861";
+
         String query = "SELECT CONCAT(kind, ' - ', donem) AS course FROM egitim_etc";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
@@ -519,9 +515,7 @@ public class Ogrenciler extends javax.swing.JFrame {
     }
     
     private void fetchDataFromDatabase() {
-        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-        String username = "root";
-        String password = "etc5861";
+
 
         String query = "SELECT ogrenci_etc.id, ogrenci_etc.adi, ogrenci_etc.telefon, ogrenci_etc.mail, CONCAT(egitim_etc.kind, ' - ', egitim_etc.donem) AS kurs, egitim_etc.aktif FROM ogrenci_etc " +
                 "INNER JOIN egitim_ogrenci_id ON ogrenci_etc.id = egitim_ogrenci_id.ogrenci_id " +

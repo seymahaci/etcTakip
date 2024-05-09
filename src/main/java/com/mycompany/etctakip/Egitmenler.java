@@ -19,6 +19,9 @@ import javax.swing.table.TableRowSorter;
  * @author frankie
  */
 public class Egitmenler extends javax.swing.JFrame {
+        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+        String username = "root";
+        String password = "etc5861";
 
     /**
      * Creates new form Egitimler
@@ -414,9 +417,7 @@ public class Egitmenler extends javax.swing.JFrame {
         String musaitlik = jTable1.getValueAt(selectedRow, 6).toString();
 
         // Güncelleme sorgusu oluşturma
-        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-        String username = "root";
-        String password = "etc5861";
+        
         String updateQuery = "UPDATE egitmen_etc SET adi = ?, mail = ?, telefon = ?, iban = ?, musait = ?, dersler = ? WHERE id = ?";
 
         try (Connection conn = DriverManager.getConnection(url, username, password);
@@ -443,9 +444,7 @@ public class Egitmenler extends javax.swing.JFrame {
     }
     
     private void fetchDataFromDatabase() {
-    String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-    String username = "root";
-    String password = "etc5861";
+
     String query = "SELECT egitmen_etc.id, egitmen_etc.adi, egitmen_etc.mail, egitmen_etc.telefon, egitmen_etc.iban, egitmen_etc.dersler, egitmen_etc.musait FROM egitmen_etc";
 
 
@@ -512,9 +511,7 @@ public class Egitmenler extends javax.swing.JFrame {
        jComboBox4.removeAllItems();
        jComboBox4.addItem("seç");
         // Veritabanından gelen verileri ekle
-        String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-        String username = "root";
-        String password = "etc5861";
+
         String query = "SELECT adi FROM egitmen_etc";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);

@@ -463,12 +463,12 @@ public class Egitimler extends javax.swing.JFrame {
         String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
         String username = "root";
         String password = "etc5861";
-        String query = "SELECT egitim_etc.id, CONCAT(egitim_etc.kind, ' - ', egitim_etc.donem) AS kurs, egitim_etc.baslama_tarihi, egitim_etc.bitis_tarihi, egitim_etc.kurs_saati, COUNT(egitim_ogrenci_id.course_id) AS ogrencisayisi, egitmen_etc.adi, egitim_etc.aktif " +
-                       "FROM egitim_etc " +
-                       "INNER JOIN egitim_egitmen_id ON egitim_etc.id = egitim_egitmen_id.egitim_id " +
-                       "INNER JOIN egitmen_etc ON egitim_egitmen_id.egitmen_id = egitmen_etc.id " +
-                       "LEFT JOIN egitim_ogrenci_id ON egitim_etc.id = egitim_ogrenci_id.course_id " +
-                       "GROUP BY egitim_etc.id";
+        String query = "SELECT egitim_etc.id, CONCAT(egitim_etc.kind, ' - ', egitim_etc.donem) AS kurs, egitim_etc.baslama_tarihi, egitim_etc.bitis_tarihi, egitim_etc.kurs_saati, COUNT(egitim_ogrenci_id.course_id) AS ogrencisayisi, GROUP_CONCAT(egitmen_etc.adi SEPARATOR ', ') AS egitmenler, egitim_etc.aktif " +
+                        "FROM egitim_etc " +
+                        "INNER JOIN egitim_egitmen_id ON egitim_etc.id = egitim_egitmen_id.egitim_id " +
+                        "INNER JOIN egitmen_etc ON egitim_egitmen_id.egitmen_id = egitmen_etc.id " +
+                        "LEFT JOIN egitim_ogrenci_id ON egitim_etc.id = egitim_ogrenci_id.course_id " +
+                        "GROUP BY egitim_etc.id";
 
         try (Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
@@ -494,7 +494,7 @@ public class Egitimler extends javax.swing.JFrame {
                    bitisTarihiStr,
                    resultSet.getObject("kurs_saati"),
                    resultSet.getObject("ogrencisayisi"),
-                   resultSet.getObject("adi"),
+                   resultSet.getObject("egitmenler"),
                    resultSet.getObject("aktif")
                };
                model.addRow(rowData);

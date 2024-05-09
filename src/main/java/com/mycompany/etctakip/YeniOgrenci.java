@@ -21,6 +21,9 @@ import javax.swing.JOptionPane;
  * @author frankie
  */
 public class YeniOgrenci extends javax.swing.JFrame {
+            String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
+            String username = "root";
+            String password = "etc5861";
     /**
      * Creates new form YeniEgitim
      */
@@ -281,9 +284,7 @@ public class YeniOgrenci extends javax.swing.JFrame {
         PreparedStatement odemeEgitimStatement = null;
 
         try {
-            String url = "jdbc:mysql://localhost:3306/etc_academy_ybs";
-            String username = "root";
-            String password = "etc5861";
+
 
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
