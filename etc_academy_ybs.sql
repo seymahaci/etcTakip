@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 08, 2024 at 10:25 PM
+-- Generation Time: May 09, 2024 at 01:56 PM
 -- Server version: 11.3.2-MariaDB
 -- PHP Version: 8.3.3
 
@@ -29,18 +29,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `billing` (
   `id` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
   `type_in_out` varchar(50) NOT NULL,
   `amount` float NOT NULL,
-  `tick` varchar(11) NOT NULL
+  `tick` varchar(11) NOT NULL,
+  `text` text NOT NULL DEFAULT '--'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `billing`
 --
 
-INSERT INTO `billing` (`id`, `date`, `type_in_out`, `amount`, `tick`) VALUES
-(70000, '2023-01-01', 'gelir_di', 0, 'ödendi');
+INSERT INTO `billing` (`id`, `date`, `type_in_out`, `amount`, `tick`, `text`) VALUES
+(70000, '2023-01-01', 'gelir_eg', 0, 'ödendi', '0');
 
 -- --------------------------------------------------------
 
@@ -53,13 +54,6 @@ CREATE TABLE `egitim_egitmen_id` (
   `egitim_id` int(11) NOT NULL,
   `egitmen_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `egitim_egitmen_id`
---
-
-INSERT INTO `egitim_egitmen_id` (`id`, `egitim_id`, `egitmen_id`) VALUES
-(5, 10001, 30002);
 
 -- --------------------------------------------------------
 
@@ -99,13 +93,6 @@ CREATE TABLE `egitim_ogrenci_id` (
   `course_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `egitim_ogrenci_id`
---
-
-INSERT INTO `egitim_ogrenci_id` (`id`, `ogrenci_id`, `course_id`) VALUES
-(6, 50001, 10001);
-
 -- --------------------------------------------------------
 
 --
@@ -139,16 +126,21 @@ INSERT INTO `egitmen_etc` (`id`, `adi`, `telefon`, `mail`, `iban`, `dersler`, `n
 CREATE TABLE `odeme_diger` (
   `odeme_id` int(11) NOT NULL,
   `adi` varchar(50) NOT NULL,
+  `odeme_tipi` varchar(50) NOT NULL,
+  `odeme_tarihi` date NOT NULL,
+  `amount` float NOT NULL,
+  `tick` varchar(11) NOT NULL,
   `iban` varchar(40) NOT NULL,
-  `reason` text NOT NULL
+  `reason` text NOT NULL,
+  `telefon` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `odeme_diger`
 --
 
-INSERT INTO `odeme_diger` (`odeme_id`, `adi`, `iban`, `reason`) VALUES
-(90000, 'Default', '-', '-');
+INSERT INTO `odeme_diger` (`odeme_id`, `adi`, `odeme_tipi`, `odeme_tarihi`, `amount`, `tick`, `iban`, `reason`, `telefon`) VALUES
+(90000, 'Default', 'gelir_di', '2001-05-29', 0, 'ödendi', '-', '-', '');
 
 -- --------------------------------------------------------
 
@@ -163,14 +155,6 @@ CREATE TABLE `odeme_egitim_id` (
   `egitim_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `odeme_egitim_id`
---
-
-INSERT INTO `odeme_egitim_id` (`id`, `odeme_id`, `taraf_id`, `egitim_id`) VALUES
-(1, 70001, 30002, 10001),
-(2, 70002, 50001, 10001);
-
 -- --------------------------------------------------------
 
 --
@@ -182,7 +166,7 @@ CREATE TABLE `ogrenci_etc` (
   `adi` varchar(50) NOT NULL,
   `telefon` varchar(20) NOT NULL,
   `mail` varchar(50) NOT NULL,
-  `text` text NOT NULL
+  `text` text NOT NULL DEFAULT '--'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -190,7 +174,7 @@ CREATE TABLE `ogrenci_etc` (
 --
 
 INSERT INTO `ogrenci_etc` (`id`, `adi`, `telefon`, `mail`, `text`) VALUES
-(50000, 'Default', '00000000000', '-', '-');
+(50000, 'Johnny Doe', '00000000000', '-', '-');
 
 --
 -- Indexes for dumped tables
@@ -238,7 +222,8 @@ ALTER TABLE `egitmen_etc`
 -- Indexes for table `odeme_diger`
 --
 ALTER TABLE `odeme_diger`
-  ADD PRIMARY KEY (`odeme_id`);
+  ADD PRIMARY KEY (`odeme_id`),
+  ADD KEY `odeme_id` (`odeme_id`);
 
 --
 -- Indexes for table `odeme_egitim_id`
@@ -264,49 +249,49 @@ ALTER TABLE `ogrenci_etc`
 -- AUTO_INCREMENT for table `billing`
 --
 ALTER TABLE `billing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70003;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70016;
 
 --
 -- AUTO_INCREMENT for table `egitim_egitmen_id`
 --
 ALTER TABLE `egitim_egitmen_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `egitim_etc`
 --
 ALTER TABLE `egitim_etc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10002;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10009;
 
 --
 -- AUTO_INCREMENT for table `egitim_ogrenci_id`
 --
 ALTER TABLE `egitim_ogrenci_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `egitmen_etc`
 --
 ALTER TABLE `egitmen_etc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30003;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30004;
 
 --
 -- AUTO_INCREMENT for table `odeme_diger`
 --
 ALTER TABLE `odeme_diger`
-  MODIFY `odeme_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90001;
+  MODIFY `odeme_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90009;
 
 --
 -- AUTO_INCREMENT for table `odeme_egitim_id`
 --
 ALTER TABLE `odeme_egitim_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `ogrenci_etc`
 --
 ALTER TABLE `ogrenci_etc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50002;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50006;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
